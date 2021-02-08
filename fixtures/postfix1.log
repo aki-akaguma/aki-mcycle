@@ -1,0 +1,83 @@
+Dec  4 20:56:25 vr01 postfix/smtpd[23193]: connect from 113x36x54x37.ap113.ftth.ucom.ne.jp[113.36.54.37]
+Dec  4 20:56:25 vr01 postgrey[925]: action=pass, reason=triplet found, client_name=113x36x54x37.ap113.ftth.ucom.ne.jp, client_address=113.36.54.37, sender=bookstore@takarajimasha.co.jp, recipient=shinko3@light.ne.jp 
+Dec  4 20:56:27 vr01 postfix/cleanup[23197]: 0008DC0AE: message-id=<20171204115627.0008DC0AE@mail.light.ne.jp>
+Dec  4 20:56:27 vr01 postfix/smtpd[23193]: 0146EC0B2: client=113x36x54x37.ap113.ftth.ucom.ne.jp[113.36.54.37]
+Dec  4 20:56:27 vr01 postfix/qmgr[2647]: 0008DC0AE: from=<double-bounce@mail.light.ne.jp>, size=265, nrcpt=1 (queue active)
+Dec  4 20:56:27 vr01 postfix/cleanup[23198]: 0146EC0B2: message-id=<20171204115624.F390954003@sv-tak02.treasure.co.jp>
+Dec  4 20:56:27 vr01 postfix/qmgr[2647]: 0146EC0B2: from=<bookstore@takarajimasha.co.jp>, size=2086, nrcpt=1 (queue active)
+Dec  4 20:56:27 vr01 postfix/local[23200]: 0146EC0B2: to=<shinko3@light.ne.jp>, relay=local, delay=1.6, delays=1.6/0.01/0/0.06, dsn=2.0.0, status=sent (delivered to command: procmail -a "$EXTENSION")
+Dec  4 20:56:27 vr01 postfix/qmgr[2647]: 0146EC0B2: removed
+Dec  4 20:56:27 vr01 ipop3d[23202]: pop3 service init from 124.154.11.120
+Dec  4 20:56:28 vr01 postfix/smtp[23199]: 0008DC0AE: to=<bookstore@takarajimasha.co.jp>, relay=gw.takarajimasha.co.jp[210.145.190.104]:25, delay=1.1, delays=0.04/0.01/0.95/0.1, dsn=2.0.0, status=deliverable (250 recipient <bookstore@takarajimasha.co.jp> ok)
+Dec  4 20:56:28 vr01 ipop3d[23202]: Auth user=cool host=pl32120.ag2323.nttpc.ne.jp [124.154.11.120] nmsgs=1/1
+Dec  4 20:56:28 vr01 postfix/qmgr[2647]: 0008DC0AE: removed
+Dec  4 20:56:28 vr01 ipop3d[23202]: Update user=cool host=pl32120.ag2323.nttpc.ne.jp [124.154.11.120] nmsgs=1 ndele=0 nseen=0
+Dec  4 20:56:28 vr01 ipop3d[23202]: Logout user=cool host=pl32120.ag2323.nttpc.ne.jp [124.154.11.120]
+Dec  4 20:56:32 vr01 postfix/smtpd[23193]: disconnect from 113x36x54x37.ap113.ftth.ucom.ne.jp[113.36.54.37]
+Dec  5 11:12:23 vr01 postfix/smtpd[16336]: connect from unknown[80.92.10.135]
+Dec  5 11:12:26 vr01 postgrey[925]: action=greylist, reason=new, client_name=unknown, client_address=80.92.10.135, sender=rznybviep@atdikzfegzdbnnmrcitl.jp, recipient=hideme@light.ne.jp 
+Dec  5 11:12:27 vr01 postfix/smtpd[16336]: NOQUEUE: reject: RCPT from unknown[80.92.10.135]: 554 5.7.1 Service unavailable; Client host [80.92.10.135] blocked using bl.spamcop.net; Blocked - see http://www.spamcop.net/bl.shtml?80.92.10.135; from=<rznybviep@atdikzfegzdbnnmrcitl.jp> to=<hideme@light.ne.jp> proto=SMTP helo=<customer.worldstream.nl>
+Dec  5 11:12:28 vr01 postfix/smtpd[16336]: disconnect from unknown[80.92.10.135]
+Dec  5 14:48:40 vr01 postfix/smtpd[6726]: NOQUEUE: reject: RCPT from p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp[61.118.255.201]: 554 5.7.1 Service unavailable; Client host [61.118.255.201] blocked using sbl-xbl.spamhaus.org; https://www.spamhaus.org/query/ip/61.118.255.201; from=<tickets@mail.disney.co.jp> to=<umsknupcmyd@light.ne.jp> proto=ESMTP helo=<p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp>
+Dec  5 14:48:40 vr01 postfix/smtpd[6779]: NOQUEUE: reject: RCPT from p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp[61.118.255.201]: 554 5.7.1 Service unavailable; Client host [61.118.255.201] blocked using sbl-xbl.spamhaus.org; https://www.spamhaus.org/query/ip/61.118.255.201; from=<tickets@mail.disney.co.jp> to=<tsudann@light.ne.jp> proto=ESMTP helo=<p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp>
+Dec  5 14:48:40 vr01 postfix/smtpd[6779]: lost connection after DATA from p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp[61.118.255.201]
+Dec  5 14:48:40 vr01 postfix/smtpd[6779]: disconnect from p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp[61.118.255.201]
+Dec  5 14:48:41 vr01 postfix/qmgr[2647]: C7DFEC0AD: from=<miyakeco@light.ne.jp>, size=2231011, nrcpt=1 (queue active)
+Dec  5 14:48:41 vr01 postfix/s/smtpd[6780]: disconnect from pl33760.ag2323.nttpc.ne.jp[124.154.105.224]
+Dec  5 14:48:42 vr01 postfix/smtpd[6726]: lost connection after DATA from p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp[61.118.255.201]
+Dec  5 14:48:42 vr01 postfix/smtpd[6726]: disconnect from p3201-ipbffx02fukuokachu.fukuoka.ocn.ne.jp[61.118.255.201]
+Dec  5 14:48:43 vr01 postfix/smtpd[6779]: connect from sm1.foresight.jp[118.238.29.114]
+Dec  5 14:48:44 vr01 postfix/cleanup[6782]: 1B5E6C0B0: message-id=<20171205054844.1B5E6C0B0@mail.light.ne.jp>
+Dec  5 14:48:44 vr01 postfix/smtpd[6779]: 1EF76C0B1: client=sm1.foresight.jp[118.238.29.114]
+Dec  5 14:48:44 vr01 postfix/qmgr[2647]: 1B5E6C0B0: from=<double-bounce@mail.light.ne.jp>, size=265, nrcpt=1 (queue active)
+Dec  5 14:48:44 vr01 postfix/cleanup[6649]: 1EF76C0B1: message-id=<20171205054842.9D0D4E1716@sm1.foresight.jp>
+Dec  5 14:48:44 vr01 postfix/qmgr[2647]: 1EF76C0B1: from=<mag2@foresight.jp>, size=17941, nrcpt=1 (queue active)
+Dec  5 14:48:44 vr01 postfix/smtpd[6779]: disconnect from sm1.foresight.jp[118.238.29.114]
+Dec  5 14:48:44 vr01 postfix/local[6651]: 1EF76C0B1: to=<platinum@light.ne.jp>, relay=local, delay=0.88, delays=0.85/0/0/0.03, dsn=2.0.0, status=sent (delivered to command: procmail -a "$EXTENSION")
+Dec  5 14:48:44 vr01 postfix/qmgr[2647]: 1EF76C0B1: removed
+Dec  5 14:48:45 vr01 postfix/smtp[6784]: 1B5E6C0B0: to=<mag2@foresight.jp>, relay=sm1.foresight.jp[118.238.29.114]:25, delay=1, delays=0.02/0.01/0.32/0.65, dsn=2.1.5, status=deliverable (250 2.1.5 Ok)
+Dec  5 14:48:45 vr01 postfix/qmgr[2647]: 1B5E6C0B0: removed
+Dec  5 14:48:51 vr01 ipop3d[6786]: pop3 service init from 124.154.11.120
+Dec  5 14:48:52 vr01 ipop3d[6786]: Auth user=cool host=pl32120.ag2323.nttpc.ne.jp [124.154.11.120] nmsgs=1/1
+Dec  5 14:48:52 vr01 ipop3d[6786]: Update user=cool host=pl32120.ag2323.nttpc.ne.jp [124.154.11.120] nmsgs=1 ndele=0 nseen=0
+Dec  5 14:48:52 vr01 ipop3d[6786]: Logout user=cool host=pl32120.ag2323.nttpc.ne.jp [124.154.11.120]
+Dec  5 14:49:06 vr01 postfix/smtp[6650]: C7DFEC0AD: to=<info@yamakou.co.jp>, relay=vlmx20.secure.ne.jp[122.200.253.199]:25, delay=29, delays=4.8/0/0.73/24, dsn=2.0.0, status=sent (250 ok:  Message 1044915968 accepted)
+Dec  5 14:49:06 vr01 postfix/qmgr[2647]: C7DFEC0AD: removed
+Dec  5 15:12:23 vr01 postfix/smtpd[9289]: table hash:/etc/postfix/maps/popbefore has changed -- restarting
+Dec  5 15:12:23 vr01 postfix/smtpd[9357]: connect from omp.news.nec-lavie.jp[129.145.68.16]
+Dec  5 15:12:25 vr01 postfix/smtpd[9357]: C811BC0AD: client=omp.news.nec-lavie.jp[129.145.68.16]
+Dec  5 15:12:25 vr01 postfix/cleanup[7809]: C811BC0AD: message-id=<0.1.7E.C1F.1D36D9003066F82.0@omp.news.nec-lavie.jp>
+Dec  5 15:12:26 vr01 postfix/qmgr[2647]: C811BC0AD: from=<necdirect@news.nec-lavie.jp>, size=83987, nrcpt=1 (queue active)
+Dec  5 15:12:26 vr01 postfix/local[9292]: C811BC0AD: to=<haruhiko@light.ne.jp>, relay=local, delay=2.4, delays=2.4/0/0/0.04, dsn=2.0.0, status=sent (delivered to command: procmail -a "$EXTENSION")
+Dec  5 15:12:26 vr01 postfix/qmgr[2647]: C811BC0AD: removed
+Dec  5 15:12:26 vr01 postfix/smtpd[9357]: disconnect from omp.news.nec-lavie.jp[129.145.68.16]
+Dec  5 15:12:29 vr01 ipop3d[9356]: Update user=show host=pl4029.ag2323.nttpc.ne.jp [219.102.101.189] nmsgs=3 ndele=0 nseen=0
+Dec  5 15:12:29 vr01 ipop3d[9356]: Logout user=show host=pl4029.ag2323.nttpc.ne.jp [219.102.101.189]
+Dec  5 15:12:30 vr01 ipop3d[9359]: pop3 service init from 219.102.101.189
+Dec  5 15:12:30 vr01 ipop3d[9359]: Login user=show host=pl4029.ag2323.nttpc.ne.jp [219.102.101.189] nmsgs=3/3
+Dec  5 15:12:31 vr01 postfix/smtpd[9357]: connect from smail.nscc.nssmc.com[61.196.98.137]
+Dec  5 15:12:31 vr01 ipop3d[9361]: pop3 service init from 124.154.105.224
+Dec  5 15:12:31 vr01 ipop3d[9360]: pop3 service init from 124.154.105.224
+Dec  5 15:12:32 vr01 postfix/cleanup[7809]: 3806EC0AD: message-id=<20171205061232.3806EC0AD@mail.light.ne.jp>
+Dec  5 15:12:32 vr01 postfix/qmgr[2647]: 3806EC0AD: from=<double-bounce@mail.light.ne.jp>, size=265, nrcpt=1 (queue active)
+Dec  5 15:12:32 vr01 postfix/smtpd[9357]: 3AA23C0B0: client=smail.nscc.nssmc.com[61.196.98.137]
+Dec  5 15:12:32 vr01 postfix/cleanup[7809]: 3AA23C0B0: message-id=<-17512360.1245.1512454350146.JavaMail.SYSTEM@192.168.252.1>
+Dec  5 15:12:32 vr01 postfix/qmgr[2647]: 3AA23C0B0: from=<cpmadm@nscc.nssmc.com>, size=3986, nrcpt=1 (queue active)
+Dec  5 15:12:32 vr01 postfix/local[9292]: 3AA23C0B0: to=<ishidu@light.ne.jp>, relay=local, delay=0.71, delays=0.69/0/0/0.01, dsn=2.0.0, status=sent (delivered to command: procmail -a "$EXTENSION")
+Dec  5 15:12:32 vr01 postfix/qmgr[2647]: 3AA23C0B0: removed
+Dec  5 15:12:32 vr01 ipop3d[9361]: Auth user=miyake host=pl33760.ag2323.nttpc.ne.jp [124.154.105.224] nmsgs=9/9
+Dec  5 15:12:32 vr01 postfix/smtpd[9357]: disconnect from smail.nscc.nssmc.com[61.196.98.137]
+Dec  5 15:12:32 vr01 ipop3d[9361]: Update user=miyake host=pl33760.ag2323.nttpc.ne.jp [124.154.105.224] nmsgs=9 ndele=0 nseen=0
+Dec  5 15:12:32 vr01 ipop3d[9361]: Logout user=miyake host=pl33760.ag2323.nttpc.ne.jp [124.154.105.224]
+Dec  5 15:12:32 vr01 postfix/smtp[9290]: 3806EC0AD: to=<cpmadm@nscc.nssmc.com>, relay=smail.nscc.nssmc.com[61.196.98.137]:25, delay=0.73, delays=0/0.01/0.3/0.42, dsn=2.1.5, status=deliverable (250 2.1.5 <cpmadm@nscc.nssmc.com>... Recipient ok)
+Dec  5 15:12:32 vr01 postfix/qmgr[2647]: 3806EC0AD: removed
+Dec  5 15:12:33 vr01 ipop3d[9360]: Auth user=miyakeco host=pl33760.ag2323.nttpc.ne.jp [124.154.105.224] nmsgs=107/107
+Dec  5 15:12:33 vr01 ipop3d[9360]: Update user=miyakeco host=pl33760.ag2323.nttpc.ne.jp [124.154.105.224] nmsgs=107 ndele=0 nseen=0
+Dec  5 15:12:33 vr01 ipop3d[9360]: Logout user=miyakeco host=pl33760.ag2323.nttpc.ne.jp [124.154.105.224]
+Dec  5 15:12:33 vr01 postfix/smtpd[9357]: connect from ml02.dc5-ml.securedc.nissan.co.jp[118.103.45.246]
+Dec  5 15:12:33 vr01 postfix/smtpd[9357]: CAE64C0AD: client=ml02.dc5-ml.securedc.nissan.co.jp[118.103.45.246]
+Dec  5 15:12:33 vr01 postfix/cleanup[9362]: CAE64C0AD: message-id=<sc173v5.ZHci6vM0d9E=.nissan@magazine.nissan.co.jp>
+Dec  5 15:12:34 vr01 postfix/qmgr[2647]: CAE64C0AD: from=<errormail@form.securedc.nissan.co.jp>, size=45327, nrcpt=1 (queue active)
+Dec  5 15:12:34 vr01 postfix/smtpd[9357]: disconnect from ml02.dc5-ml.securedc.nissan.co.jp[118.103.45.246]
+Dec  5 15:12:34 vr01 postfix/local[9292]: CAE64C0AD: to=<nochi@light.ne.jp>, relay=local, delay=0.4, delays=0.38/0/0/0.02, dsn=2.0.0, status=sent (delivered to command: procmail -a "$EXTENSION")
+Dec  5 15:12:34 vr01 postfix/qmgr[2647]: CAE64C0AD: removed
