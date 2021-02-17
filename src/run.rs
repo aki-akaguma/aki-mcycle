@@ -80,7 +80,7 @@ fn do_match_proc(sioe: &StreamIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Res
     let mut curr_color: Color = Color::None;
     let mut line_num: usize = 0;
     //
-    for line in sioe.sin.lock().lines() {
+    for line in sioe.pin.lock().lines() {
         let line_s = line?;
         let line_ss = line_s.as_str();
         let line_len: usize = line_ss.len();
@@ -148,9 +148,9 @@ fn do_match_proc(sioe: &StreamIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Res
                 color = line_color_mark[st];
             }
             //
-            sioe.sout.lock().write_fmt(format_args!("{}\n", out_s))?
+            sioe.pout.lock().write_fmt(format_args!("{}\n", out_s))?
         } else {
-            sioe.sout.lock().write_fmt(format_args!("{}\n", line_ss))?
+            sioe.pout.lock().write_fmt(format_args!("{}\n", line_ss))?
         }
         if line_num % 30 == 0 {
             clean_cycle_vec(50, line_num, &mut cycle_vec);

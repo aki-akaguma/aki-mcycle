@@ -1,5 +1,5 @@
 //!
-//! the substitude text program.
+//! the mark up text with cycling color program.
 //!
 //! ```text
 //! Usage:
@@ -22,6 +22,36 @@
 //!   RUST_CYCLE_COLOR_YELLOW_ST   yellow start sequence
 //!   RUST_CYCLE_COLOR_ED          color end sequence
 //! ```
+//!
+//!
+//! # Examples
+//!
+//! ### Command line example 1
+//!
+//! Extract "`arm`" from the rustup target list and make "`linux-[^ ]+`" **color**.
+//!
+//! - 1st match: makes '`linux-musl`' **red**
+//! - 2nd match: makes '`linux-musleabi`' **green**
+//! - 3rd match: makes '`linux-musleabihf`' **blue**
+//! - 4th match: makes '`linux-muslabi64`' **cyan**
+//!
+//! ```text
+//! rustup target list | aki-mline -e arm | aki-mcycle -e "linux-[^ ]+"
+//! ```
+//! 
+//! result output :
+//! 
+//! ![out rustup image]
+//! 
+//! [out rustup image]: https://raw.githubusercontent.com/aki-akaguma/aki-mcycle/main/img/out-rustup-1.png
+//!
+//! - [aki-mline](https://crates.io/crates/aki-mline): extract match line command like grep.
+//!
+//! ### Library example
+//!
+//! See [`fn execute()`] for this library examples.
+//!
+//! [`fn execute()`]: crate::execute
 //!
 
 #[macro_use]
@@ -52,24 +82,23 @@ const TRY_HELP_MSG: &str = "Try --help for help.";
 /// example:
 ///
 /// ```
-/// use runnel::medium::stdioe::{StreamInStdin,StreamOutStdout,StreamErrStderr};
 /// use runnel::StreamIoe;
+/// use runnel::medium::stdio::{StdErr, StdIn, StdOut};
 ///
-/// let r = libaki_mcycle::execute(&StreamIoe{
-///     sin: Box::new(StreamInStdin::default()),
-///     sout: Box::new(StreamOutStdout::default()),
-///     serr: Box::new(StreamErrStderr::default()),
-/// }, "cycle-color", &["-e", "Message:"]);
+/// let r = libaki_mcycle::execute(&StreamIoe {
+///     pin: Box::new(StdIn::default()),
+///     pout: Box::new(StdOut::default()),
+///     perr: Box::new(StdErr::default()),
+/// }, "mcycle", &["-e", "Message: *[^ ]+"]);
 /// ```
 ///
-pub fn execute(sioe: &StreamIoe, program: &str, args: &[&str]) -> anyhow::Result<()> {
-    //
-    let conf = match conf::parse_cmdopts(program, args) {
+pub fn execute(sioe: &StreamIoe, prog_name: &str, args: &[&str]) -> anyhow::Result<()> {
+    let conf = match conf::parse_cmdopts(prog_name, args) {
         Ok(conf) => conf,
         Err(errs) => {
             for err in errs.iter().take(1) {
                 if err.is_help() || err.is_version() {
-                    let _r = sioe.sout.lock().write_fmt(format_args!("{}\n", err));
+                    let _r = sioe.pout.lock().write_fmt(format_args!("{}\n", err));
                     return Ok(());
                 }
             }
