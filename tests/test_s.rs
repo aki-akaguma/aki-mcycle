@@ -59,19 +59,18 @@ macro_rules! do_execute {
     };
     ($args:expr, $sin:expr) => {{
         let sioe = StreamIoe {
-            sin: Box::new(StreamInStringIn::with_str($sin)),
-            sout: Box::new(StreamOutStringOut::default()),
-            serr: Box::new(StreamErrStringErr::default()),
+            pin: Box::new(StringIn::with_str($sin)),
+            pout: Box::new(StringOut::default()),
+            perr: Box::new(StringErr::default()),
         };
         let program = env!("CARGO_PKG_NAME");
         let r = execute(&sioe, &program, $args);
         match r {
             Ok(_) => {}
             Err(ref err) => {
-                let _ = sioe
-                    .serr
-                    .lock()
-                    .write_fmt(format_args!("{}: {}\n", program, err));
+                #[rustfmt::skip]
+                        let _ = sioe.perr.lock()
+                            .write_fmt(format_args!("{}: {}\n", program, err));
             }
         };
         (r, sioe)
@@ -80,16 +79,16 @@ macro_rules! do_execute {
 
 macro_rules! buff {
     ($sioe:expr, serr) => {
-        $sioe.serr.lock().buffer_str()
+        $sioe.perr.lock().buffer_str()
     };
     ($sioe:expr, sout) => {
-        $sioe.sout.lock().buffer_str()
+        $sioe.pout.lock().buffer_str()
     };
 }
 
 mod test_0 {
     use libaki_mcycle::*;
-    use runnel::medium::stringio::*;
+    use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::*;
     use std::io::Write;
     //
@@ -154,77 +153,77 @@ mod test_0 {
 
 mod test_1 {
     /*
-        use runnel::medium::stringio::*;
-        use runnel::*;
-        use libaki_mcycle::*;
-        use std::io::Write;
-        use std::collections::HashMap;
-        //
-        fn make_env() -> HashMap<String, String> {
-            let mut env: HashMap<String, String> = HashMap::new();
-            env.insert("RUST_CYCLE_COLOR_RED_ST".to_string(), "<R>".to_string());
-            env.insert("RUST_CYCLE_COLOR_GREEN_ST".to_string(), "<G>".to_string());
-            env.insert("RUST_CYCLE_COLOR_BLUE_ST".to_string(), "<B>".to_string());
-            env.insert("RUST_CYCLE_COLOR_CYAN_ST".to_string(), "<C>".to_string());
-            env.insert("RUST_CYCLE_COLOR_MAGENDA_ST".to_string(), "<M>".to_string());
-            env.insert("RUST_CYCLE_COLOR_YELLOW_ST".to_string(), "<Y>".to_string());
-            env.insert("RUST_CYCLE_COLOR_ED".to_string(), "<E>".to_string());
-            env
-        }
-        //
-        #[test]
-        fn test_abc_1() {
-            let in_put: &[u8] = b"abcdefg";
-            let env: HashMap<String, String> = make_env();
-            let oup = exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "a"], env, in_put);
-            assert_eq!(oup.stderr, "");
-            assert_eq!(oup.stdout, "<R>a<E>bcdefg\n");
-            assert_eq!(oup.status.success(), true);
-        }
-        //
-        #[test]
-        fn test_abc_2() {
-            let in_put: &[u8] = b"abcdefg\nhiajklnm\n";
-            let env: HashMap<String, String> = make_env();
-            let oup = exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "a"], env, in_put);
-            assert_eq!(oup.stderr, "");
-            assert_eq!(oup.stdout, "<R>a<E>bcdefg\nhi<R>a<E>jklnm\n");
-            assert_eq!(oup.status.success(), true);
-        }
-        //
-        #[test]
-        fn test_abc_3() {
-            let in_put: &[u8] = b"ab1cdefg\nhi2jklnm\nhi1jklnm\n";
-            let env: HashMap<String, String> = make_env();
-            let oup = exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "[0-9]"], env, in_put);
-            assert_eq!(oup.stderr, "");
-            assert_eq!(
-                oup.stdout,
-                "ab<R>1<E>cdefg\nhi<G>2<E>jklnm\nhi<R>1<E>jklnm\n"
-            );
-            assert_eq!(oup.status.success(), true);
-        }
-        //
-        #[test]
-        fn test_abc_4() {
-            let in_put: &[u8] = b"ab1cdefg\nhi2jklnm\nhi1jklnm\n";
-            let env: HashMap<String, String> = make_env();
-            let oup =
-                exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "[a-z][0-9]([a-z])"], env, in_put);
-            assert_eq!(oup.stderr, "");
-            assert_eq!(
-                oup.stdout,
-                "ab1<R>c<E>defg\nhi2<G>j<E>klnm\nhi1<G>j<E>klnm\n"
-            );
-            assert_eq!(oup.status.success(), true);
-        }
+    use libaki_mcycle::*;
+    use runnel::medium::stringio::{StringErr, StringIn, StringOut};
+    use libaki_mcycle::*;
+    use std::io::Write;
+    use std::collections::HashMap;
+    //
+    fn make_env() -> HashMap<String, String> {
+        let mut env: HashMap<String, String> = HashMap::new();
+        env.insert("RUST_CYCLE_COLOR_RED_ST".to_string(), "<R>".to_string());
+        env.insert("RUST_CYCLE_COLOR_GREEN_ST".to_string(), "<G>".to_string());
+        env.insert("RUST_CYCLE_COLOR_BLUE_ST".to_string(), "<B>".to_string());
+        env.insert("RUST_CYCLE_COLOR_CYAN_ST".to_string(), "<C>".to_string());
+        env.insert("RUST_CYCLE_COLOR_MAGENDA_ST".to_string(), "<M>".to_string());
+        env.insert("RUST_CYCLE_COLOR_YELLOW_ST".to_string(), "<Y>".to_string());
+        env.insert("RUST_CYCLE_COLOR_ED".to_string(), "<E>".to_string());
+        env
+    }
+    //
+    #[test]
+    fn test_abc_1() {
+        let in_put: &[u8] = b"abcdefg";
+        let env: HashMap<String, String> = make_env();
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "a"], env, in_put);
+        assert_eq!(oup.stderr, "");
+        assert_eq!(oup.stdout, "<R>a<E>bcdefg\n");
+        assert_eq!(oup.status.success(), true);
+    }
+    //
+    #[test]
+    fn test_abc_2() {
+        let in_put: &[u8] = b"abcdefg\nhiajklnm\n";
+        let env: HashMap<String, String> = make_env();
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "a"], env, in_put);
+        assert_eq!(oup.stderr, "");
+        assert_eq!(oup.stdout, "<R>a<E>bcdefg\nhi<R>a<E>jklnm\n");
+        assert_eq!(oup.status.success(), true);
+    }
+    //
+    #[test]
+    fn test_abc_3() {
+        let in_put: &[u8] = b"ab1cdefg\nhi2jklnm\nhi1jklnm\n";
+        let env: HashMap<String, String> = make_env();
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "[0-9]"], env, in_put);
+        assert_eq!(oup.stderr, "");
+        assert_eq!(
+            oup.stdout,
+            "ab<R>1<E>cdefg\nhi<G>2<E>jklnm\nhi<R>1<E>jklnm\n"
+        );
+        assert_eq!(oup.status.success(), true);
+    }
+    //
+    #[test]
+    fn test_abc_4() {
+        let in_put: &[u8] = b"ab1cdefg\nhi2jklnm\nhi1jklnm\n";
+        let env: HashMap<String, String> = make_env();
+        let oup =
+            exec_target_with_env_in(TARGET_EXE_PATH, &["-e", "[a-z][0-9]([a-z])"], env, in_put);
+        assert_eq!(oup.stderr, "");
+        assert_eq!(
+            oup.stdout,
+            "ab1<R>c<E>defg\nhi2<G>j<E>klnm\nhi1<G>j<E>klnm\n"
+        );
+        assert_eq!(oup.status.success(), true);
+    }
     */
 }
 
 mod test_3 {
     /*
-    use streamio::stringio::*;
     use libaki_mcycle::*;
+    use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use std::io::Write;
     //
      * can NOT test
