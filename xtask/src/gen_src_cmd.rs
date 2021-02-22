@@ -1,5 +1,5 @@
 use flood_tide_gen::{gen_src_help, SrcHelpFlags};
-//use flood_tide_gen::gen_src_match;
+use flood_tide_gen::gen_src_match;
 use flood_tide_gen::parse_input_file;
 use flood_tide_gen::update_file;
 use flood_tide_gen::{MetaType, OptStr};
@@ -19,8 +19,8 @@ pub fn do_gen_src() -> anyhow::Result<()> {
     )?;
     update_file(&sss, "src/conf/cmd.help.rs.txt")?;
     //
-    //let sss = gen_src_match(&vec_optstr)?;
-    //update_file(&sss, "src/conf/cmd.match.rs.txt")?;
+    let sss = gen_src_match(&vec_optstr)?;
+    update_file(&sss, "src/conf/cmd.match.rs.txt")?;
     //
     Ok(())
 }

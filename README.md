@@ -12,7 +12,7 @@
 aki-mcolor --help
 ```
 
-```
+```text
 Usage:
   aki-mcycle [options]
 
