@@ -58,19 +58,19 @@ macro_rules! do_execute {
         do_execute!($args, "")
     };
     ($args:expr, $sin:expr) => {{
-        let sioe = StreamIoe {
-            pin: Box::new(StringIn::with_str($sin)),
-            pout: Box::new(StringOut::default()),
-            perr: Box::new(StringErr::default()),
-        };
+        let sioe = RunnelIoe::new(
+            Box::new(StringIn::with_str($sin)),
+            Box::new(StringOut::default()),
+            Box::new(StringErr::default()),
+        );
         let program = env!("CARGO_PKG_NAME");
         let r = execute(&sioe, &program, $args);
         match r {
             Ok(_) => {}
             Err(ref err) => {
                 #[rustfmt::skip]
-                        let _ = sioe.perr.lock()
-                            .write_fmt(format_args!("{}: {}\n", program, err));
+                            let _ = sioe.perr().lock()
+                                .write_fmt(format_args!("{}: {}\n", program, err));
             }
         };
         (r, sioe)
@@ -79,10 +79,10 @@ macro_rules! do_execute {
 
 macro_rules! buff {
     ($sioe:expr, serr) => {
-        $sioe.perr.lock().buffer_str()
+        $sioe.perr().lock().buffer_str()
     };
     ($sioe:expr, sout) => {
-        $sioe.pout.lock().buffer_str()
+        $sioe.pout().lock().buffer_str()
     };
 }
 

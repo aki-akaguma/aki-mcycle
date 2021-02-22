@@ -8,18 +8,18 @@ const OPTIONS_TEXT: &str = r"Options:
 
 #[repr(u8)]
 #[derive(Debug, PartialEq)]
-enum CmdOP {
+enum CmdOp {
     Exp,
     Help,
     Version,
 }
 
-impl std::convert::From<u8> for CmdOP {
+impl std::convert::From<u8> for CmdOp {
     fn from(value: u8) -> Self {
         unsafe { std::mem::transmute(value) }
     }
 }
-impl CmdOP {
+impl CmdOp {
     pub const fn to(self) -> OptNum {
         self as OptNum
     }
@@ -27,9 +27,9 @@ impl CmdOP {
 
 #[rustfmt::skip]
 const OPT_ARY: [Opt;3] = [
-    Opt { sho: b'e', lon: "exp",           has: Arg::Yes, num: CmdOP::Exp.to(), },
-    Opt { sho: b'H', lon: "help",          has: Arg::No,  num: CmdOP::Help.to(), },
-    Opt { sho: b'V', lon: "version",       has: Arg::No,  num: CmdOP::Version.to(), },
+    Opt { sho: b'e', lon: "exp",           has: Arg::Yes, num: CmdOp::Exp.to(), },
+    Opt { sho: b'H', lon: "help",          has: Arg::No,  num: CmdOp::Help.to(), },
+    Opt { sho: b'V', lon: "version",       has: Arg::No,  num: CmdOp::Version.to(), },
 ];
 
 #[rustfmt::skip]
@@ -39,7 +39,7 @@ const OPT_ARY_SHO_IDX: [(u8,usize);3] = [
 
 #[derive(Debug, Default, PartialEq)]
 pub struct CmdOptConf {
-    pub opt_program: String,
+    pub prog_name: String,
     //
     pub opt_exp: String,
     pub flg_help: bool,

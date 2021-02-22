@@ -1,7 +1,7 @@
 use crate::conf::{CmdOptConf, Color};
 use crate::util::err::BrokenPipeError;
 use regex::Regex;
-use runnel::StreamIoe;
+use runnel::RunnelIoe;
 use std::io::{BufRead, Write};
 
 /*
@@ -16,7 +16,7 @@ use std::io::BufRead;
 use std::io::Write;
 */
 
-pub fn run(sioe: &StreamIoe, conf: &CmdOptConf) -> anyhow::Result<()> {
+pub fn run(sioe: &RunnelIoe, conf: &CmdOptConf) -> anyhow::Result<()> {
     let re = Regex::new(&conf.opt_exp)?;
     //
     let r = do_match_proc(sioe, conf, &re);
@@ -69,7 +69,7 @@ fn clean_cycle_vec(limit_num: usize, line_num: usize, v: &mut Vec<MarkColorLNum>
     }
 }
 
-fn do_match_proc(sioe: &StreamIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Result<()> {
+fn do_match_proc(sioe: &RunnelIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Result<()> {
     //let color_start_s = conf.opt_color_seq_red_start.as_str();
     let color_end_s = conf.opt_color_seq_end.as_str();
     /*
@@ -80,7 +80,7 @@ fn do_match_proc(sioe: &StreamIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Res
     let mut curr_color: Color = Color::None;
     let mut line_num: usize = 0;
     //
-    for line in sioe.pin.lock().lines() {
+    for line in sioe.pin().lock().lines() {
         let line_s = line?;
         let line_ss = line_s.as_str();
         let line_len: usize = line_ss.len();
@@ -148,14 +148,18 @@ fn do_match_proc(sioe: &StreamIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Res
                 color = line_color_mark[st];
             }
             //
-            sioe.pout.lock().write_fmt(format_args!("{}\n", out_s))?
+            #[rustfmt::skip]
+            sioe.pout().lock().write_fmt(format_args!("{}\n", out_s))?;
         } else {
-            sioe.pout.lock().write_fmt(format_args!("{}\n", line_ss))?
+            #[rustfmt::skip]
+            sioe.pout().lock().write_fmt(format_args!("{}\n", line_ss))?;
         }
         if line_num % 30 == 0 {
             clean_cycle_vec(50, line_num, &mut cycle_vec);
         }
     }
+    //
+    sioe.pout().lock().flush()?;
     //
     Ok(())
 }
