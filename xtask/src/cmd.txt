@@ -1,5 +1,5 @@
 Options:
-  -e, --exp <exp>      regex (default: ' ([0-9A-Z]{3,}):')
+  -e, --exp <exp>       regular expression (default: ' ([0-9A-Z]{3,}):')
 
-  -H, --help     display this help and exit
-  -V, --version  display version information and exit
+  -H, --help        display this help and exit
+  -V, --version     display version information and exit
