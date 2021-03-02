@@ -62,31 +62,31 @@ static COLOR_END: &str = "\u{1B}[0m";
 impl CmdOptConf {
     pub fn create(program: &str) -> Self {
         //
-        let a_color_red_start = match env::var("RUST_CYCLE_COLOR_RED_ST") {
+        let a_color_red_start = match env::var("AKI_MCYCLE_COLOR_RED_ST") {
             Ok(v) => v,
             Err(_) => String::from(COLOR_RED_START),
         };
-        let a_color_green_start = match env::var("RUST_CYCLE_COLOR_GREEN_ST") {
+        let a_color_green_start = match env::var("AKI_MCYCLE_COLOR_GREEN_ST") {
             Ok(v) => v,
             Err(_) => String::from(COLOR_GREEN_START),
         };
-        let a_color_blue_start = match env::var("RUST_CYCLE_COLOR_BLUE_ST") {
+        let a_color_blue_start = match env::var("AKI_MCYCLE_COLOR_BLUE_ST") {
             Ok(v) => v,
             Err(_) => String::from(COLOR_BLUE_START),
         };
-        let a_color_cyan_start = match env::var("RUST_CYCLE_COLOR_CYAN_ST") {
+        let a_color_cyan_start = match env::var("AKI_MCYCLE_COLOR_CYAN_ST") {
             Ok(v) => v,
             Err(_) => String::from(COLOR_CYAN_START),
         };
-        let a_color_magenda_start = match env::var("RUST_CYCLE_COLOR_MAGENDA_ST") {
+        let a_color_magenda_start = match env::var("AKI_MCYCLE_COLOR_MAGENDA_ST") {
             Ok(v) => v,
             Err(_) => String::from(COLOR_MAGENDA_START),
         };
-        let a_color_yellow_start = match env::var("RUST_CYCLE_COLOR_YELLOW_ST") {
+        let a_color_yellow_start = match env::var("AKI_MCYCLE_COLOR_YELLOW_ST") {
             Ok(v) => v,
             Err(_) => String::from(COLOR_YELLOW_START),
         };
-        let a_color_end = match env::var("RUST_CYCLE_COLOR_ED") {
+        let a_color_end = match env::var("AKI_MCYCLE_COLOR_ED") {
             Ok(v) => v,
             Err(_) => String::from(COLOR_END),
         };

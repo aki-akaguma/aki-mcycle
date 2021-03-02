@@ -11,19 +11,19 @@ macro_rules! help_msg {
             "mark up text with cycling color.\n",
             "\n",
             "Options:\n",
-            "  -e, --exp <exp>      regex (default: ' ([0-9A-Z]{3,}):')\n",
+            "  -e, --exp <exp>       regular expression (default: ' ([0-9A-Z]{3,}):')\n",
             "\n",
-            "  -H, --help     display this help and exit\n",
-            "  -V, --version  display version information and exit\n",
+            "  -H, --help        display this help and exit\n",
+            "  -V, --version     display version information and exit\n",
             "\n",
             "Env:\n",
-            "  RUST_CYCLE_COLOR_RED_ST      red start sequence\n",
-            "  RUST_CYCLE_COLOR_GREEN_ST    green start sequence\n",
-            "  RUST_CYCLE_COLOR_BLUE_ST     blue start sequence\n",
-            "  RUST_CYCLE_COLOR_CYAN_ST     cyan start sequence\n",
-            "  RUST_CYCLE_COLOR_MAGENDA_ST  magenda start sequence\n",
-            "  RUST_CYCLE_COLOR_YELLOW_ST   yellow start sequence\n",
-            "  RUST_CYCLE_COLOR_ED          color end sequence\n",
+            "  AKI_MCYCLE_COLOR_RED_ST       red start sequence\n",
+            "  AKI_MCYCLE_COLOR_GREEN_ST     green start sequence\n",
+            "  AKI_MCYCLE_COLOR_BLUE_ST      blue start sequence\n",
+            "  AKI_MCYCLE_COLOR_CYAN_ST      cyan start sequence\n",
+            "  AKI_MCYCLE_COLOR_MAGENDA_ST   magenda start sequence\n",
+            "  AKI_MCYCLE_COLOR_YELLOW_ST    yellow start sequence\n",
+            "  AKI_MCYCLE_COLOR_ED           color end sequence\n",
             "\n"
         )
     };
@@ -126,13 +126,13 @@ mod test_1 {
     //
     fn make_env() -> HashMap<String, String> {
         let mut env: HashMap<String, String> = HashMap::new();
-        env.insert("RUST_CYCLE_COLOR_RED_ST".to_string(), "<R>".to_string());
-        env.insert("RUST_CYCLE_COLOR_GREEN_ST".to_string(), "<G>".to_string());
-        env.insert("RUST_CYCLE_COLOR_BLUE_ST".to_string(), "<B>".to_string());
-        env.insert("RUST_CYCLE_COLOR_CYAN_ST".to_string(), "<C>".to_string());
-        env.insert("RUST_CYCLE_COLOR_MAGENDA_ST".to_string(), "<M>".to_string());
-        env.insert("RUST_CYCLE_COLOR_YELLOW_ST".to_string(), "<Y>".to_string());
-        env.insert("RUST_CYCLE_COLOR_ED".to_string(), "<E>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_RED_ST".to_string(), "<R>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_GREEN_ST".to_string(), "<G>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_BLUE_ST".to_string(), "<B>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_CYAN_ST".to_string(), "<C>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_MAGENDA_ST".to_string(), "<M>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_YELLOW_ST".to_string(), "<Y>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_ED".to_string(), "<E>".to_string());
         env
     }
     //

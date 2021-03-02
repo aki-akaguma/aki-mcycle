@@ -1,7 +1,7 @@
-use flood_tide_gen::{gen_src_help, SrcHelpFlags};
 use flood_tide_gen::gen_src_match;
 use flood_tide_gen::parse_input_file;
 use flood_tide_gen::update_file;
+use flood_tide_gen::{gen_src_help, SrcHelpFlags};
 use flood_tide_gen::{MetaType, OptStr};
 
 pub fn do_gen_src() -> anyhow::Result<()> {
@@ -45,16 +45,18 @@ fn fix_type(vec_optstr: &mut [OptStr]) {
             "speed-time" => MetaType::U32,
             */
             "tftp-blksize" => MetaType::U32,
-            _ => v.meta_type,
+            _ => v.meta_type.clone(),
         };
         //
         v.meta_type = v_meta_type;
         //
+        /*
         let v_is_vec = match v.lon.as_str() {
             "expression" => true,
             "format" => true,
             _ => false,
         };
         v.is_vec = v_is_vec;
+        */
     }
 }

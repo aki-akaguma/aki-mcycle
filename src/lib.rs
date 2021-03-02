@@ -8,19 +8,19 @@
 //! mark up text with cycling color.
 //!
 //! Options:
-//!   -e, --exp <exp>      regex (default: ' ([0-9A-Z]{3,}):')
+//!   -e, --exp <exp>       regular expression (default: ' ([0-9A-Z]{3,}):')
 //!
-//!   -H, --help     display this help and exit
-//!   -V, --version  display version information and exit
+//!   -H, --help        display this help and exit
+//!   -V, --version     display version information and exit
 //!
 //! Env:
-//!   RUST_CYCLE_COLOR_RED_ST      red start sequence
-//!   RUST_CYCLE_COLOR_GREEN_ST    green start sequence
-//!   RUST_CYCLE_COLOR_BLUE_ST     blue start sequence
-//!   RUST_CYCLE_COLOR_CYAN_ST     cyan start sequence
-//!   RUST_CYCLE_COLOR_MAGENDA_ST  magenda start sequence
-//!   RUST_CYCLE_COLOR_YELLOW_ST   yellow start sequence
-//!   RUST_CYCLE_COLOR_ED          color end sequence
+//!   AKI_MCYCLE_COLOR_RED_ST       red start sequence
+//!   AKI_MCYCLE_COLOR_GREEN_ST     green start sequence
+//!   AKI_MCYCLE_COLOR_BLUE_ST      blue start sequence
+//!   AKI_MCYCLE_COLOR_CYAN_ST      cyan start sequence
+//!   AKI_MCYCLE_COLOR_MAGENDA_ST   magenda start sequence
+//!   AKI_MCYCLE_COLOR_YELLOW_ST    yellow start sequence
+//!   AKI_MCYCLE_COLOR_ED           color end sequence
 //! ```
 //!
 //!
@@ -72,7 +72,7 @@ const TRY_HELP_MSG: &str = "Try --help for help.";
 ///
 /// params:
 ///   - sioe: stream in/out/err
-///   - program: program name. etc. "gsub"
+///   - program: program name. etc. "mcycle"
 ///   - args: parameter arguments.
 ///
 /// return:
