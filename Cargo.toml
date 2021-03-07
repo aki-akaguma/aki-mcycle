@@ -1,6 +1,6 @@
 [package]
 name = "aki-mcycle"
-version = "0.1.13"
+version = "0.1.14"
 authors = ["aki <aki.akaguma@hotmail.com>"]
 description = """
 mark up text with cycling color
@@ -26,9 +26,9 @@ path = "src/main.rs"
 default = []
 
 [dependencies]
-regex = "1.3"
 anyhow = "1.0"
 flood-tide = { version="0.1", default-features=true, features=["stop_at_mm"] }
+regex = "1.4"
 runnel = "0.3"
 
 [dev-dependencies]
