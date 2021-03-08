@@ -4,18 +4,6 @@ use regex::Regex;
 use runnel::RunnelIoe;
 use std::io::{BufRead, Write};
 
-/*
-use regex::Regex;
-
-use crate::conf::CmdOptConf;
-use crate::conf::Color;
-use crate::util::AppError;
-
-use std::io;
-use std::io::BufRead;
-use std::io::Write;
-*/
-
 pub fn run(sioe: &RunnelIoe, conf: &CmdOptConf) -> anyhow::Result<()> {
     let re = Regex::new(&conf.opt_exp)?;
     //
@@ -54,6 +42,14 @@ struct MarkColorLNum {
     mark: String,
     color: Color,
     lnum: usize,
+}
+
+#[cfg(test)]
+mod debug {
+    #[test]
+    fn size_of() {
+        assert_eq!(std::mem::size_of::<super::MarkColorLNum>(), 40);
+    }
 }
 
 fn clean_cycle_vec(limit_num: usize, line_num: usize, v: &mut Vec<MarkColorLNum>) {

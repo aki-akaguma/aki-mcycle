@@ -22,6 +22,14 @@ impl ::std::default::Default for Color {
     }
 }
 
+#[cfg(test)]
+mod debug {
+    #[test]
+    fn size_of() {
+        assert_eq!(std::mem::size_of::<super::Color>(), 1);
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct CmdOptConf {
     pub opt_program: String,
