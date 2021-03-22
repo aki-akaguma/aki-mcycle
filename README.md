@@ -16,22 +16,25 @@ aki-mcolor --help
 Usage:
   aki-mcycle [options]
 
-mark up text with cycling color.
+mark up text with the cyclic color.
 
 Options:
-  -e, --exp <exp>       regular expression (default: ' ([0-9A-Z]{3,}):')
+  -e, --exp <exp>   write it in the cyclic color (default: ' ([0-9A-Z]{3,}):')
 
   -H, --help        display this help and exit
   -V, --version     display version information and exit
 
-Env:
-  AKI_MCYCLE_COLOR_RED_ST       red start sequence
-  AKI_MCYCLE_COLOR_GREEN_ST     green start sequence
-  AKI_MCYCLE_COLOR_BLUE_ST      blue start sequence
-  AKI_MCYCLE_COLOR_CYAN_ST      cyan start sequence
-  AKI_MCYCLE_COLOR_MAGENDA_ST   magenda start sequence
-  AKI_MCYCLE_COLOR_YELLOW_ST    yellow start sequence
-  AKI_MCYCLE_COLOR_ED           color end sequence
+Option Parameters:
+  <exp>     regular expression, color the entire match with the cyclic color.
+
+Environments:
+  AKI_MCYCLE_COLOR_SEQ_RED_ST       red start sequence specified by ansi
+  AKI_MCYCLE_COLOR_SEQ_GREEN_ST     green start sequence specified by ansi
+  AKI_MCYCLE_COLOR_SEQ_BLUE_ST      blue start sequence specified by ansi
+  AKI_MCYCLE_COLOR_SEQ_CYAN_ST      cyan start sequence specified by ansi
+  AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST   magenda start sequence specified by ansi
+  AKI_MCYCLE_COLOR_SEQ_YELLOW_ST    yellow start sequence specified by ansi
+  AKI_MCYCLE_COLOR_SEQ_ED           color end sequence specified by ansi
 ```
 
 * minimum support rustc 1.38.0
@@ -80,3 +83,7 @@ result output :
 See [`fn execute()`] for this library examples.
 
 [`fn execute()`]: crate::execute
+
+## Changelogs
+
+[This crate's changelog here.](https://github.com/aki-akaguma/aki-mcycle/blob/main/CHANGELOG.md)

@@ -1,13 +1,13 @@
-use crate::conf::{CmdOptConf, Color};
+use crate::conf::{CmdOptConf, Color, EnvConf};
 use crate::util::err::BrokenPipeError;
 use regex::Regex;
 use runnel::RunnelIoe;
 use std::io::{BufRead, Write};
 
-pub fn run(sioe: &RunnelIoe, conf: &CmdOptConf) -> anyhow::Result<()> {
+pub fn run(sioe: &RunnelIoe, conf: &CmdOptConf, env: &EnvConf) -> anyhow::Result<()> {
     let re = Regex::new(&conf.opt_exp)?;
     //
-    let r = do_match_proc(sioe, conf, &re);
+    let r = do_match_proc(sioe, conf, env, &re);
     if r.is_broken_pipe() {
         return Ok(());
     }
@@ -26,15 +26,15 @@ fn next_color(color: Color) -> Color {
     }
 }
 
-fn color_seq(conf: &CmdOptConf, color: Color) -> &str {
+fn color_seq(env: &EnvConf, color: Color) -> &str {
     match color {
         Color::None => "",
-        Color::Red => conf.opt_color_seq_red_start.as_str(),
-        Color::Green => conf.opt_color_seq_green_start.as_str(),
-        Color::Blue => conf.opt_color_seq_blue_start.as_str(),
-        Color::Cyan => conf.opt_color_seq_cyan_start.as_str(),
-        Color::Magenda => conf.opt_color_seq_magenda_start.as_str(),
-        Color::Yellow => conf.opt_color_seq_yellow_start.as_str(),
+        Color::Red => env.color_seq_red_start.as_str(),
+        Color::Green => env.color_seq_green_start.as_str(),
+        Color::Blue => env.color_seq_blue_start.as_str(),
+        Color::Cyan => env.color_seq_cyan_start.as_str(),
+        Color::Magenda => env.color_seq_magenda_start.as_str(),
+        Color::Yellow => env.color_seq_yellow_start.as_str(),
     }
 }
 
@@ -65,9 +65,14 @@ fn clean_cycle_vec(limit_num: usize, line_num: usize, v: &mut Vec<MarkColorLNum>
     }
 }
 
-fn do_match_proc(sioe: &RunnelIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Result<()> {
-    //let color_start_s = conf.opt_color_seq_red_start.as_str();
-    let color_end_s = conf.opt_color_seq_end.as_str();
+fn do_match_proc(
+    sioe: &RunnelIoe,
+    _conf: &CmdOptConf,
+    env: &EnvConf,
+    re: &Regex,
+) -> anyhow::Result<()> {
+    //let color_start_s = env.color_seq_red_start.as_str();
+    let color_end_s = env.color_seq_end.as_str();
     /*
     let color_start_s = "<S>";
     let color_end_s = "<E>";
@@ -128,7 +133,7 @@ fn do_match_proc(sioe: &RunnelIoe, conf: &CmdOptConf, re: &Regex) -> anyhow::Res
                 };
                 if st != next_pos {
                     if color != Color::None {
-                        let color_start_s = color_seq(conf, color);
+                        let color_start_s = color_seq(env, color);
                         out_s.push_str(color_start_s);
                     }
                     out_s.push_str(&line_ss[st..next_pos]);

@@ -8,22 +8,25 @@ macro_rules! help_msg {
             "Usage:\n",
             "  aki-mcycle [options]\n",
             "\n",
-            "mark up text with cycling color.\n",
+            "mark up text with the cyclic color.\n",
             "\n",
             "Options:\n",
-            "  -e, --exp <exp>       regular expression (default: ' ([0-9A-Z]{3,}):')\n",
+            "  -e, --exp <exp>   write it in the cyclic color (default: ' ([0-9A-Z]{3,}):')\n",
             "\n",
             "  -H, --help        display this help and exit\n",
             "  -V, --version     display version information and exit\n",
             "\n",
-            "Env:\n",
-            "  AKI_MCYCLE_COLOR_RED_ST       red start sequence\n",
-            "  AKI_MCYCLE_COLOR_GREEN_ST     green start sequence\n",
-            "  AKI_MCYCLE_COLOR_BLUE_ST      blue start sequence\n",
-            "  AKI_MCYCLE_COLOR_CYAN_ST      cyan start sequence\n",
-            "  AKI_MCYCLE_COLOR_MAGENDA_ST   magenda start sequence\n",
-            "  AKI_MCYCLE_COLOR_YELLOW_ST    yellow start sequence\n",
-            "  AKI_MCYCLE_COLOR_ED           color end sequence\n",
+            "Option Parameters:\n",
+            "  <exp>     regular expression, color the entire match with the cyclic color.\n",
+            "\n",
+            "Environments:\n",
+            "  AKI_MCYCLE_COLOR_SEQ_RED_ST       red start sequence specified by ansi\n",
+            "  AKI_MCYCLE_COLOR_SEQ_GREEN_ST     green start sequence specified by ansi\n",
+            "  AKI_MCYCLE_COLOR_SEQ_BLUE_ST      blue start sequence specified by ansi\n",
+            "  AKI_MCYCLE_COLOR_SEQ_CYAN_ST      cyan start sequence specified by ansi\n",
+            "  AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST   magenda start sequence specified by ansi\n",
+            "  AKI_MCYCLE_COLOR_SEQ_YELLOW_ST    yellow start sequence specified by ansi\n",
+            "  AKI_MCYCLE_COLOR_SEQ_ED           color end sequence specified by ansi\n",
             "\n"
         )
     };
@@ -126,13 +129,28 @@ mod test_1 {
     //
     fn make_env() -> HashMap<String, String> {
         let mut env: HashMap<String, String> = HashMap::new();
-        env.insert("AKI_MCYCLE_COLOR_RED_ST".to_string(), "<R>".to_string());
-        env.insert("AKI_MCYCLE_COLOR_GREEN_ST".to_string(), "<G>".to_string());
-        env.insert("AKI_MCYCLE_COLOR_BLUE_ST".to_string(), "<B>".to_string());
-        env.insert("AKI_MCYCLE_COLOR_CYAN_ST".to_string(), "<C>".to_string());
-        env.insert("AKI_MCYCLE_COLOR_MAGENDA_ST".to_string(), "<M>".to_string());
-        env.insert("AKI_MCYCLE_COLOR_YELLOW_ST".to_string(), "<Y>".to_string());
-        env.insert("AKI_MCYCLE_COLOR_ED".to_string(), "<E>".to_string());
+        env.insert("AKI_MCYCLE_COLOR_SEQ_RED_ST".to_string(), "<R>".to_string());
+        env.insert(
+            "AKI_MCYCLE_COLOR_SEQ_GREEN_ST".to_string(),
+            "<G>".to_string(),
+        );
+        env.insert(
+            "AKI_MCYCLE_COLOR_SEQ_BLUE_ST".to_string(),
+            "<B>".to_string(),
+        );
+        env.insert(
+            "AKI_MCYCLE_COLOR_SEQ_CYAN_ST".to_string(),
+            "<C>".to_string(),
+        );
+        env.insert(
+            "AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST".to_string(),
+            "<M>".to_string(),
+        );
+        env.insert(
+            "AKI_MCYCLE_COLOR_SEQ_YELLOW_ST".to_string(),
+            "<Y>".to_string(),
+        );
+        env.insert("AKI_MCYCLE_COLOR_SEQ_ED".to_string(), "<E>".to_string());
         env
     }
     //

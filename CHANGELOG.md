@@ -2,6 +2,14 @@ aki-mcycle TBD
 ===
 Unreleased changes. Release notes have not yet been written.
 
+0.1.17 (2021-03-22)
+=====
+
+* update depend: regex v1.4.5: fixes stack overflows
+* add execute_env(), and change in handling of environments
+* add some tests
+* add some contents to --help
+
 0.1.16 (2021-03-14)
 =====
 
