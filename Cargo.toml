@@ -1,6 +1,6 @@
 [package]
 name = "aki-mcycle"
-version = "0.1.18"
+version = "0.1.19"
 authors = ["aki <aki.akaguma@hotmail.com>"]
 description = """
 mark up text with cycling color

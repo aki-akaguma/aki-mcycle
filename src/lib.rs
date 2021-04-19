@@ -4,18 +4,18 @@
 //! ```text
 //! Usage:
 //!   aki-mcycle [options]
-//! 
+//!
 //! mark up text with the cyclic color.
-//! 
+//!
 //! Options:
 //!   -e, --exp <exp>   write it in the cyclic color (default: ' ([0-9A-Z]{3,}):')
-//! 
+//!
 //!   -H, --help        display this help and exit
 //!   -V, --version     display version information and exit
-//! 
+//!
 //! Option Parameters:
 //!   <exp>     regular expression, color the entire match with the cyclic color.
-//! 
+//!
 //! Environments:
 //!   AKI_MCYCLE_COLOR_SEQ_RED_ST       red start sequence specified by ansi
 //!   AKI_MCYCLE_COLOR_SEQ_GREEN_ST     green start sequence specified by ansi
