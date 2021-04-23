@@ -1,6 +1,6 @@
 [package]
 name = "aki-mcycle"
-version = "0.1.19"
+version = "0.1.20"
 authors = ["aki <aki.akaguma@hotmail.com>"]
 description = """
 mark up text with cycling color
@@ -34,6 +34,7 @@ runnel = "0.3"
 [dev-dependencies]
 
 [build-dependencies]
+rust-version-info-file = "0.1"
 rustc_version = "0.3"
 
 [workspace]
@@ -50,6 +51,9 @@ extended-description = """\
 This program is mark up text with cycling color.
 """
 depends = "$auto"
+separate-debug-symbols = true
 assets = [
     ["target/release/aki-mcycle", "usr/bin/", "755"],
+    ["target/rust-version-info.txt", "usr/share/doc/aki-mcycle/", "644"],
+    ["README.md", "usr/share/doc/aki-mcycle/", "644"],
 ]

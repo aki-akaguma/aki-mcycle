@@ -4,6 +4,9 @@ use flood_tide::HelpVersion;
 use flood_tide::{Arg, NameVal, Opt, OptNum};
 use flood_tide::{OptParseError, OptParseErrors};
 
+use crate::util::OptUcXParam;
+use std::str::FromStr;
+
 //----------------------------------------------------------------------
 include!("cmd.help.rs.txt");
 
@@ -46,6 +49,33 @@ fn help_message(program: &str) -> String {
     [ &ver, "", &usa, DESCRIPTIONS_TEXT, OPTIONS_TEXT, PARAMS_TEXT, ENV_TEXT].join("\n")
 }
 
+#[rustfmt::skip]
+fn opt_uc_x_help_message(_program: &str) -> String {
+    let z_opts = concat!(
+        "Options:\n",
+        "  -X rust-version-info     display package version info and exit\n",
+        "  -X base_dir=<path>       set <path> is base directory\n",
+    );
+    z_opts.to_string()
+}
+
+#[rustfmt::skip]
+fn opt_uc_x_package_version_info(_program: &str) -> String {
+    use std::io::Read;
+    let mut string = String::new();
+    let fnm = format!("/usr/share/doc/{}/rust-version-info.txt", env!("CARGO_PKG_NAME"));
+    let file = std::fs::File::open(&fnm);
+    match file {
+        Ok(mut f) => {
+            f.read_to_string(&mut string).unwrap();
+            string
+        },
+        Err(err) => {
+            format!("ERROR: {}: '{}'", err, fnm)
+        },
+    }
+}
+
 //----------------------------------------------------------------------
 fn parse_match(conf: &mut CmdOptConf, nv: &NameVal<'_>) -> Result<(), OptParseError> {
     include!("cmd.match.rs.txt");
@@ -73,6 +103,22 @@ pub fn parse_cmdopts(a_prog_name: &str, args: &[&str]) -> Result<CmdOptConf, Opt
             &conf.prog_name,
         )));
         return Err(errs);
+    }
+    if !conf.opt_uc_x.is_empty() {
+        if conf.is_opt_uc_x_help() {
+            let mut errs = OptParseErrors::new();
+            errs.push(OptParseError::help_message(&opt_uc_x_help_message(
+                &conf.prog_name,
+            )));
+            return Err(errs);
+        }
+        if conf.is_opt_uc_x_package_version_info() {
+            let mut errs = OptParseErrors::new();
+            errs.push(OptParseError::help_message(&opt_uc_x_package_version_info(
+                &conf.prog_name,
+            )));
+            return Err(errs);
+        }
     }
     //
     {

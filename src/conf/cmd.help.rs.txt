@@ -4,6 +4,7 @@ const OPTIONS_TEXT: &str = r"Options:
 
   -H, --help        display this help and exit
   -V, --version     display version information and exit
+  -X <x-options>    x options. try -X help
 ";
 
 #[repr(u8)]
@@ -12,6 +13,7 @@ enum CmdOp {
     Exp,
     Help,
     Version,
+    UcX,
 }
 
 impl std::convert::From<u8> for CmdOp {
@@ -26,15 +28,16 @@ impl CmdOp {
 }
 
 #[rustfmt::skip]
-const OPT_ARY: [Opt;3] = [
+const OPT_ARY: [Opt;4] = [
+    Opt { sho: b'X', lon: "",              has: Arg::Yes, num: CmdOp::UcX.to(), },
     Opt { sho: b'e', lon: "exp",           has: Arg::Yes, num: CmdOp::Exp.to(), },
     Opt { sho: b'H', lon: "help",          has: Arg::No,  num: CmdOp::Help.to(), },
     Opt { sho: b'V', lon: "version",       has: Arg::No,  num: CmdOp::Version.to(), },
 ];
 
 #[rustfmt::skip]
-const OPT_ARY_SHO_IDX: [(u8,usize);3] = [
-(b'H',1),(b'V',2),(b'e',0),];
+const OPT_ARY_SHO_IDX: [(u8,usize);4] = [
+(b'H',2),(b'V',3),(b'X',0),(b'e',1),];
 
 #[derive(Debug, Default, PartialEq)]
 pub struct CmdOptConf {
@@ -43,6 +46,7 @@ pub struct CmdOptConf {
     pub opt_exp: String,
     pub flg_help: bool,
     pub flg_version: bool,
+    pub opt_uc_x: Vec<OptUcXParam>,
     //
     pub arg_params: Vec<String>,
 }
@@ -59,6 +63,19 @@ impl flood_tide::HelpVersion for CmdOptConf {
 fn value_to_string(nv: &NameVal<'_>) -> Result<String, OptParseError> {
     match nv.val {
         Some(x) => Ok(x.to_string()),
-        None => Err(OptParseError::missing_option_argument(&nv.opt.lon)),
+        None => Err(OptParseError::missing_option_argument(&nv.opt.lon_or_sho())),
+    }
+}
+
+fn value_to_opt_uc_x_param(nv: &NameVal<'_>) -> Result<OptUcXParam, OptParseError> {
+    match nv.val {
+        Some(s) => match FromStr::from_str(s) {
+            Ok(x) => Ok(x),
+            Err(err) => Err(OptParseError::invalid_option_argument(
+                &nv.opt.lon_or_sho(),
+                &err.to_string(),
+            )),
+        },
+        None => Err(OptParseError::missing_option_argument(&nv.opt.lon_or_sho())),
     }
 }
