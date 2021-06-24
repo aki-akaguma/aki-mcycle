@@ -1,6 +1,6 @@
 [package]
 name = "aki-mcycle"
-version = "0.1.22"
+version = "0.1.23"
 authors = ["aki <aki.akaguma@hotmail.com>"]
 description = """
 mark up text with cycling color
@@ -31,12 +31,13 @@ anyhow = "1.0"
 flood-tide = { version="0.2", default-features=true, features=["stop_at_mm"] }
 regex = "1.4"
 runnel = "0.3"
+memx-cdy = "0.1"
 
 [dev-dependencies]
 
 [build-dependencies]
 rust-version-info-file = "0.1"
-rustc_version = "0.3"
+rustc_version = "0.4"
 
 [workspace]
 members = [

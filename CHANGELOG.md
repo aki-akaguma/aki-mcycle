@@ -2,6 +2,13 @@ aki-mcycle TBD
 ===
 Unreleased changes. Release notes have not yet been written.
 
+0.1.23 (2021-06-24)
+=====
+
+* add `memx_cdy::memx_init(); // fast mem operation.`
+* rewite TARGET_EXE_PATH with `env!("CARGO_BIN_EXE_aki-mcycle")`
+* bug fix: `#[cfg(feature = "debian_build")]`
+
 0.1.22 (2021-06-03)
 =====
 
