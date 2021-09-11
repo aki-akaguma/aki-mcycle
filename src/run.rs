@@ -100,7 +100,7 @@ fn do_match_proc(
                 None => (0, 0),
             };
             let mark_s = &line_ss[st..ed];
-            let pos = cycle_vec.iter().position(|ref c| c.mark == mark_s);
+            let pos = cycle_vec.iter().position(|c| c.mark == mark_s);
             let color = match pos {
                 Some(p) => {
                     cycle_vec[p].lnum = line_num;

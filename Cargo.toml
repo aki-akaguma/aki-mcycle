@@ -1,6 +1,6 @@
 [package]
 name = "aki-mcycle"
-version = "0.1.23"
+version = "0.1.24"
 authors = ["aki <aki.akaguma@hotmail.com>"]
 description = """
 mark up text with cycling color
@@ -34,6 +34,8 @@ runnel = "0.3"
 memx-cdy = "0.1"
 
 [dev-dependencies]
+indoc = "1.0"
+exec-target = "0.2"
 
 [build-dependencies]
 rust-version-info-file = "0.1"
