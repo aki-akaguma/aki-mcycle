@@ -1,18 +1,19 @@
 # aki-mcycle
 
-*aki-mcycle* is the program that mark up text with cycling color.
+the mark up text with cycling color program.
 
 ## Features
 
-*aki-mcycle*  mark up text with cycling color.
+- mark up text with cycling color.
+- minimum support rustc 1.47.0 (18bf6b4f0 2020-10-07)
 
-* command help
+## Command help
 
-```text
-aki-mcolor --help
+```
+aki-mcycle --help
 ```
 
-```text
+```
 Usage:
   aki-mcycle [options]
 
@@ -37,8 +38,6 @@ Environments:
   AKI_MCYCLE_COLOR_SEQ_ED           color end sequence specified by ansi
 ```
 
-* minimum support rustc 1.38.0
-
 ## Quick install
 
 1. you can install this into cargo bin path:
@@ -57,7 +56,7 @@ and install **.deb** into your local repository of debian package.
 
 ## Examples
 
-#### Command line example 1
+### Command line example 1
 
 Extract "`arm`" from the rustup target list and make "`linux-[^ ]+`" **color**.
 
@@ -78,12 +77,24 @@ result output :
 
 - [aki-mline](https://crates.io/crates/aki-mline): extract match line command like grep.
 
-#### Library example
+## Library example
 
 See [`fn execute()`] for this library examples.
 
 [`fn execute()`]: crate::execute
 
-## Changelogs
+
+# Changelogs
 
 [This crate's changelog here.](https://github.com/aki-akaguma/aki-mcycle/blob/main/CHANGELOG.md)
+
+# License
+
+This project is licensed under either of
+
+ * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or
+   https://www.apache.org/licenses/LICENSE-2.0)
+ * MIT license ([LICENSE-MIT](LICENSE-MIT) or
+   https://opensource.org/licenses/MIT)
+
+at your option.
