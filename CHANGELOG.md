@@ -2,6 +2,13 @@ aki-mcycle TBD
 ===
 Unreleased changes. Release notes have not yet been written.
 
+0.1.26 (2022-05-22)
+=====
+
+* update depends: runnel(0.3.10), memx(0.1.20)
+* update depends: anyhow(1.0.57), libc(0.2.126), regex(1.5.6)
+* update depends: exec-target(v0.2.5), rust-version-info-file(v0.1.5)
+
 0.1.25 (2021-11-15)
 =====
 
