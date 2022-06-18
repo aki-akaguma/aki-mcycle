@@ -1,6 +1,6 @@
 [package]
 name = "aki-mcycle"
-version = "0.1.26"
+version = "0.1.27"
 authors = ["aki <aki.akaguma@hotmail.com>"]
 description = """
 mark up text with cycling color
@@ -10,7 +10,7 @@ categories = ["command-line-utilities", "text-processing"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 build = "build.rs"
-edition = "2018"
+edition = "2021"
 repository = "https://github.com/aki-akaguma/aki-mcycle"
 
 [lib]
