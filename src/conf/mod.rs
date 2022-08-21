@@ -36,7 +36,7 @@ impl CmdOptConf {
 use std::env;
 
 #[allow(dead_code)]
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Color {
     None,
     Red,
