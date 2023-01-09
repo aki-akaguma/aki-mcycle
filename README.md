@@ -1,5 +1,10 @@
 # aki-mcycle
 
+[![crate][crate-image]][crate-link]
+[![Docs][docs-image]][docs-link]
+![Rust Version][rustc-image]
+![Apache2/MIT licensed][license-image]
+
 the mark up text with cycling color program.
 
 ## Features
@@ -98,3 +103,12 @@ This project is licensed under either of
    https://opensource.org/licenses/MIT)
 
 at your option.
+
+[//]: # (badges)
+
+[crate-image]: https://img.shields.io/crates/v/aki-mcycle.svg
+[crate-link]: https://crates.io/crates/aki-mcycle
+[docs-image]: https://docs.rs/aki-mcycle/badge.svg
+[docs-link]: https://docs.rs/aki-mcycle/
+[rustc-image]: https://img.shields.io/badge/rustc-1.56+-blue.svg
+[license-image]: https://img.shields.io/badge/license-Apache2.0/MIT-blue.svg
