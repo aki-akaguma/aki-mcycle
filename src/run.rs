@@ -95,7 +95,7 @@ fn do_match_proc(
             b_found = true;
             //
             let cap_len = cap.len();
-            let (st, ed): (usize, usize) = match cap.get(if cap_len > 1 { 1 } else { 0 }) {
+            let (st, ed): (usize, usize) = match cap.get(usize::from(cap_len > 1)) {
                 Some(m) => (m.start(), m.end()),
                 None => (0, 0),
             };
