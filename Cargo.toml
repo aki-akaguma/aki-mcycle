@@ -29,7 +29,7 @@ debian_build = []
 [dependencies]
 anyhow = "1.0"
 flood-tide = { version="0.2", default-features=true, features=["stop_at_mm"] }
-regex = "1.4"
+regex = "1.7"
 runnel = "0.3"
 memx-cdy = "0.1"
 
