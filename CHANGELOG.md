@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * clippy: you are deriving `PartialEq` and can implement `Eq`
 * clippy: bool_to_int_with_if
+* clippy: uninlined_format_args
 
 
 ## [0.1.27] (2022-06-18)

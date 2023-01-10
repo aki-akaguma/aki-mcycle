@@ -150,10 +150,10 @@ fn do_match_proc(
             }
             //
             #[rustfmt::skip]
-            sioe.pout().lock().write_fmt(format_args!("{}\n", out_s))?;
+            sioe.pout().lock().write_fmt(format_args!("{out_s}\n"))?;
         } else {
             #[rustfmt::skip]
-            sioe.pout().lock().write_fmt(format_args!("{}\n", line_ss))?;
+            sioe.pout().lock().write_fmt(format_args!("{line_ss}\n"))?;
         }
         if line_num % 30 == 0 {
             clean_cycle_vec(50, line_num, &mut cycle_vec);
