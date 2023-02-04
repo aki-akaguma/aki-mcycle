@@ -68,7 +68,9 @@ macro_rules! do_execute {
     ($args:expr, $sin:expr) => {{
         let sioe = RunnelIoe::new(
             Box::new(StringIn::with_str($sin)),
+            #[allow(clippy::box_default)]
             Box::new(StringOut::default()),
+            #[allow(clippy::box_default)]
             Box::new(StringErr::default()),
         );
         let program = env!("CARGO_PKG_NAME");
@@ -87,7 +89,9 @@ macro_rules! do_execute {
     ($env:expr, $args:expr, $sin:expr) => {{
         let sioe = RunnelIoe::new(
             Box::new(StringIn::with_str($sin)),
+            #[allow(clippy::box_default)]
             Box::new(StringOut::default()),
+            #[allow(clippy::box_default)]
             Box::new(StringErr::default()),
         );
         let program = env!("CARGO_PKG_NAME");
@@ -125,28 +129,28 @@ mod test_0_s {
         let (r, sioe) = do_execute!(&["-H"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), help_msg!());
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
     #[test]
     fn test_help_long() {
         let (r, sioe) = do_execute!(&["--help"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), help_msg!());
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
     #[test]
     fn test_version() {
         let (r, sioe) = do_execute!(&["-V"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), version_msg!());
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
     #[test]
     fn test_version_long() {
         let (r, sioe) = do_execute!(&["--version"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), version_msg!());
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
     #[test]
     fn test_non_option() {
@@ -161,7 +165,7 @@ mod test_0_s {
             )
         );
         assert_eq!(buff!(sioe, sout), "");
-        assert_eq!(r.is_ok(), false);
+        assert!(r.is_err());
     }
     #[test]
     fn test_invalid_regex() {
@@ -175,7 +179,7 @@ mod test_0_s {
             )
         );
         assert_eq!(buff!(sioe, sout), "");
-        assert_eq!(r.is_ok(), false);
+        assert!(r.is_err());
     }
 }
 
@@ -204,7 +208,7 @@ mod test_1_s {
         let (r, sioe) = do_execute!(&env, &["-e", "a"], in_put);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), "<R>a<E>bcdefg\n");
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
     //
     #[test]
@@ -214,7 +218,7 @@ mod test_1_s {
         let (r, sioe) = do_execute!(&env, &["-e", "a"], in_put);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), "<R>a<E>bcdefg\nhi<R>a<E>jklnm\n");
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
     //
     #[test]
@@ -227,7 +231,7 @@ mod test_1_s {
             buff!(sioe, sout),
             "ab<R>1<E>cdefg\nhi<G>2<E>jklnm\nhi<R>1<E>jklnm\n"
         );
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
     //
     #[test]
@@ -240,7 +244,7 @@ mod test_1_s {
             buff!(sioe, sout),
             "ab1<R>c<E>defg\nhi2<G>j<E>klnm\nhi1<G>j<E>klnm\n"
         );
-        assert_eq!(r.is_ok(), true);
+        assert!(r.is_ok());
     }
 }
 
