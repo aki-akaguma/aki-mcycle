@@ -36,8 +36,9 @@ impl CmdOptConf {
 use std::env;
 
 #[allow(dead_code)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Color {
+    #[default]
     None,
     Red,
     Green,
@@ -45,11 +46,6 @@ pub enum Color {
     Cyan,
     Magenda,
     Yellow,
-}
-impl ::std::default::Default for Color {
-    fn default() -> Color {
-        Color::None
-    }
 }
 
 #[cfg(test)]
