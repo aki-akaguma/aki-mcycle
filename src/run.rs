@@ -2,7 +2,6 @@ use crate::conf::{CmdOptConf, Color, EnvConf};
 use crate::util::err::BrokenPipeError;
 use regex::Regex;
 use runnel::RunnelIoe;
-use std::io::{BufRead, Write};
 
 pub fn run(sioe: &RunnelIoe, conf: &CmdOptConf, env: &EnvConf) -> anyhow::Result<()> {
     let re = Regex::new(&conf.opt_exp)?;
@@ -73,7 +72,7 @@ fn do_match_proc(
     let mut curr_color: Color = Color::None;
     let mut line_num: usize = 0;
     //
-    for line in sioe.pin().lock().lines() {
+    for line in sioe.pg_in().lines() {
         let line_s = line?;
         let line_ss = line_s.as_str();
         let line_len: usize = line_ss.len();
@@ -141,18 +140,16 @@ fn do_match_proc(
                 color = line_color_mark[st];
             }
             //
-            #[rustfmt::skip]
-            sioe.pout().lock().write_fmt(format_args!("{out_s}\n"))?;
+            sioe.pg_out().write_line(out_s)?;
         } else {
-            #[rustfmt::skip]
-            sioe.pout().lock().write_fmt(format_args!("{line_ss}\n"))?;
+            sioe.pg_out().write_line(line_s)?;
         }
         if line_num % 30 == 0 {
             clean_cycle_vec(50, line_num, &mut cycle_vec);
         }
     }
     //
-    sioe.pout().lock().flush()?;
+    sioe.pg_out().flush_line()?;
     //
     Ok(())
 }

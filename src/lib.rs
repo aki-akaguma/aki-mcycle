@@ -4,7 +4,7 @@ the mark up text with cycling color program.
 # Features
 
 - mark up text with cycling color.
-- minimum support rustc 1.58.1 (db9d1b20b 2022-01-20)
+- minimum support rustc 1.65.0 (897e37553 2022-11-02)
 
 # Command help
 
@@ -133,7 +133,7 @@ pub fn execute_env(
         Err(errs) => {
             for err in errs.iter().take(1) {
                 if err.is_help() || err.is_version() {
-                    let _r = sioe.pout().lock().write_fmt(format_args!("{err}\n"));
+                    let _r = sioe.pg_out().lock().write_fmt(format_args!("{err}\n"));
                     return Ok(());
                 }
             }
