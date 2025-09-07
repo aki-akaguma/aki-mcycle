@@ -1,65 +1,5 @@
-macro_rules! help_msg {
-    () => {
-        concat!(
-            version_msg!(),
-            "\n",
-            indoc::indoc!(
-                r#"
-            Usage:
-              aki-mcycle [options]
-
-            mark up text with the cyclic color.
-
-            Options:
-              -e, --exp <exp>   write it in the cyclic color (default: ' ([0-9A-Z]{3,}):')
-
-              -H, --help        display this help and exit
-              -V, --version     display version information and exit
-              -X <x-options>    x options. try -X help
-
-            Option Parameters:
-              <exp>     regular expression, color the entire match with the cyclic color.
-
-            Environments:
-              AKI_MCYCLE_COLOR_SEQ_RED_ST       red start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_GREEN_ST     green start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_BLUE_ST      blue start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_CYAN_ST      cyan start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST   magenda start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_YELLOW_ST    yellow start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_ED           color end sequence specified by ansi
-            "#
-            ),
-            "\n"
-        )
-    };
-}
-
-macro_rules! try_help_msg {
-    () => {
-        "Try --help for help.\n"
-    };
-}
-
-macro_rules! program_name {
-    () => {
-        "aki-mcycle"
-    };
-}
-
-macro_rules! version_msg {
-    () => {
-        concat!(program_name!(), " ", env!("CARGO_PKG_VERSION"), "\n")
-    };
-}
-
-/*
-macro_rules! fixture_text10k {
-    () => {
-        "fixtures/text10k.txt"
-    };
-}
-*/
+#[macro_use]
+mod helper;
 
 macro_rules! do_execute {
     ($args:expr) => {
@@ -126,35 +66,35 @@ mod test_0_s {
     //
     #[test]
     fn test_help() {
-        let (r, sioe) = do_execute!(&["-H"]);
+        let (r, sioe) = do_execute!(["-H"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), help_msg!());
         assert!(r.is_ok());
     }
     #[test]
     fn test_help_long() {
-        let (r, sioe) = do_execute!(&["--help"]);
+        let (r, sioe) = do_execute!(["--help"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), help_msg!());
         assert!(r.is_ok());
     }
     #[test]
     fn test_version() {
-        let (r, sioe) = do_execute!(&["-V"]);
+        let (r, sioe) = do_execute!(["-V"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), version_msg!());
         assert!(r.is_ok());
     }
     #[test]
     fn test_version_long() {
-        let (r, sioe) = do_execute!(&["--version"]);
+        let (r, sioe) = do_execute!(["--version"]);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), version_msg!());
         assert!(r.is_ok());
     }
     #[test]
     fn test_non_option() {
-        let (r, sioe) = do_execute!(&[""]);
+        let (r, sioe) = do_execute!([""]);
         #[rustfmt::skip]
         assert_eq!(
             buff!(sioe, serr),
@@ -169,7 +109,7 @@ mod test_0_s {
     }
     #[test]
     fn test_invalid_regex() {
-        let (r, sioe) = do_execute!(&["-e", "["]);
+        let (r, sioe) = do_execute!(["-e", "["]);
         #[rustfmt::skip]
         assert_eq!(
             buff!(sioe, serr),
@@ -180,6 +120,47 @@ mod test_0_s {
         );
         assert_eq!(buff!(sioe, sout), "");
         assert!(r.is_err());
+    }
+}
+
+mod test_0_x_options_s {
+    use libaki_mcycle::*;
+    use runnel::medium::stringio::*;
+    use runnel::*;
+    //
+    #[test]
+    fn test_x_rust_version_info() {
+        let (r, sioe) = do_execute!(["-X", "rust-version-info"]);
+        assert_eq!(buff!(sioe, serr), "");
+        assert!(!buff!(sioe, sout).is_empty());
+        assert!(r.is_ok());
+    }
+    //
+    #[test]
+    fn test_x_option_help() {
+        let (r, sioe) = do_execute!(["-X", "help"]);
+        assert_eq!(buff!(sioe, serr), "");
+        assert!(buff!(sioe, sout).contains("Options:"));
+        assert!(buff!(sioe, sout).contains("-X rust-version-info"));
+        assert!(r.is_ok());
+    }
+    //
+    #[test]
+    fn test_x_option_rust_version_info() {
+        let (r, sioe) = do_execute!(["-X", "rust-version-info"]);
+        assert_eq!(buff!(sioe, serr), "");
+        assert!(buff!(sioe, sout).contains("rustc"));
+        assert!(r.is_ok());
+    }
+    //
+    #[test]
+    fn test_multiple_x_options() {
+        let (r, sioe) = do_execute!(["-X", "help", "-X", "rust-version-info"]);
+        assert_eq!(buff!(sioe, serr), "");
+        // The first one should be executed and the program should exit.
+        assert!(buff!(sioe, sout).contains("Options:"));
+        assert!(!buff!(sioe, sout).contains("rustc"));
+        assert!(r.is_ok());
     }
 }
 
@@ -205,7 +186,7 @@ mod test_1_s {
     fn test_abc_1() {
         let in_put = "abcdefg";
         let env = make_env();
-        let (r, sioe) = do_execute!(&env, &["-e", "a"], in_put);
+        let (r, sioe) = do_execute!(&env, ["-e", "a"], in_put);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), "<R>a<E>bcdefg\n");
         assert!(r.is_ok());
@@ -215,7 +196,7 @@ mod test_1_s {
     fn test_abc_2() {
         let in_put = "abcdefg\nhiajklnm\n";
         let env = make_env();
-        let (r, sioe) = do_execute!(&env, &["-e", "a"], in_put);
+        let (r, sioe) = do_execute!(&env, ["-e", "a"], in_put);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(buff!(sioe, sout), "<R>a<E>bcdefg\nhi<R>a<E>jklnm\n");
         assert!(r.is_ok());
@@ -225,7 +206,7 @@ mod test_1_s {
     fn test_abc_3() {
         let in_put = "ab1cdefg\nhi2jklnm\nhi1jklnm\n";
         let env = make_env();
-        let (r, sioe) = do_execute!(&env, &["-e", "[0-9]"], in_put);
+        let (r, sioe) = do_execute!(&env, ["-e", "[0-9]"], in_put);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(
             buff!(sioe, sout),
@@ -238,7 +219,7 @@ mod test_1_s {
     fn test_abc_4() {
         let in_put = "ab1cdefg\nhi2jklnm\nhi1jklnm\n";
         let env = make_env();
-        let (r, sioe) = do_execute!(&env, &["-e", "[a-z][0-9]([a-z])"], in_put);
+        let (r, sioe) = do_execute!(&env, ["-e", "[a-z][0-9]([a-z])"], in_put);
         assert_eq!(buff!(sioe, serr), "");
         assert_eq!(
             buff!(sioe, sout),
@@ -246,6 +227,25 @@ mod test_1_s {
         );
         assert!(r.is_ok());
     }
+    /*
+    #[test]
+    fn test_invalid_utf8() {
+        let v = {
+            use std::io::Read;
+            let mut f = std::fs::File::open(fixture_invalid_utf8!()).unwrap();
+            let mut v = Vec::new();
+            f.read_to_end(&mut v).unwrap();
+            v
+        };
+        let (r, sioe) = do_execute!(["-e", "."], &v);
+        assert_eq!(
+            buff!(sioe, serr),
+            concat!(program_name!(), ": stream did not contain valid UTF-8\n",)
+        );
+        assert_eq!(buff!(sioe, sout), "");
+        assert!(r.is_err());
+    }
+    */
 }
 
 mod test_3_s {

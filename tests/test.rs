@@ -1,67 +1,7 @@
 const TARGET_EXE_PATH: &str = env!(concat!("CARGO_BIN_EXE_", env!("CARGO_PKG_NAME")));
 
-macro_rules! help_msg {
-    () => {
-        concat!(
-            version_msg!(),
-            "\n",
-            indoc::indoc!(
-                r#"
-            Usage:
-              aki-mcycle [options]
-
-            mark up text with the cyclic color.
-
-            Options:
-              -e, --exp <exp>   write it in the cyclic color (default: ' ([0-9A-Z]{3,}):')
-
-              -H, --help        display this help and exit
-              -V, --version     display version information and exit
-              -X <x-options>    x options. try -X help
-
-            Option Parameters:
-              <exp>     regular expression, color the entire match with the cyclic color.
-
-            Environments:
-              AKI_MCYCLE_COLOR_SEQ_RED_ST       red start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_GREEN_ST     green start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_BLUE_ST      blue start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_CYAN_ST      cyan start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST   magenda start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_YELLOW_ST    yellow start sequence specified by ansi
-              AKI_MCYCLE_COLOR_SEQ_ED           color end sequence specified by ansi
-            "#
-            ),
-            "\n"
-        )
-    };
-}
-
-macro_rules! try_help_msg {
-    () => {
-        "Try --help for help.\n"
-    };
-}
-
-macro_rules! program_name {
-    () => {
-        "aki-mcycle"
-    };
-}
-
-macro_rules! version_msg {
-    () => {
-        concat!(program_name!(), " ", env!("CARGO_PKG_VERSION"), "\n")
-    };
-}
-
-macro_rules! fixture_text10k {
-    () => {
-        "fixtures/text10k.txt"
-    };
-}
-
-//mod helper;
+#[macro_use]
+mod helper;
 
 mod test_0 {
     use exec_target::exec_target;
@@ -125,8 +65,41 @@ mod test_0 {
     }
 }
 
+mod test_0_x_options {
+    use exec_target::exec_target;
+    const TARGET_EXE_PATH: &str = super::TARGET_EXE_PATH;
+    //
+    #[test]
+    fn test_x_option_help() {
+        let oup = exec_target(TARGET_EXE_PATH, ["-X", "help"]);
+        assert_eq!(oup.stderr, "");
+        assert!(oup.stdout.contains("Options:"));
+        assert!(oup.stdout.contains("-X rust-version-info"));
+        assert!(oup.status.success());
+    }
+    //
+    #[test]
+    fn test_x_option_rust_version_info() {
+        let oup = exec_target(TARGET_EXE_PATH, ["-X", "rust-version-info"]);
+        assert_eq!(oup.stderr, "");
+        assert!(oup.stdout.contains("rustc"));
+        assert!(oup.status.success());
+    }
+    //
+    #[test]
+    fn test_multiple_x_options() {
+        let oup = exec_target(TARGET_EXE_PATH, ["-X", "help", "-X", "rust-version-info"]);
+        assert_eq!(oup.stderr, "");
+        // The first one should be executed and the program should exit.
+        assert!(oup.stdout.contains("Options:"));
+        assert!(!oup.stdout.contains("rustc"));
+        assert!(oup.status.success());
+    }
+}
+
 mod test_1 {
     use exec_target::exec_target_with_env_in;
+    use exec_target::exec_target_with_in;
     //use exec_target::args_from;
     const TARGET_EXE_PATH: &str = super::TARGET_EXE_PATH;
     //
@@ -204,6 +177,24 @@ mod test_1 {
             "ab1<R>c<E>defg\nhi2<G>j<E>klnm\nhi1<G>j<E>klnm\n"
         );
         assert!(oup.status.success());
+    }
+    //
+    #[test]
+    fn test_invalid_utf8() {
+        let v = {
+            use std::io::Read;
+            let mut f = std::fs::File::open(fixture_invalid_utf8!()).unwrap();
+            let mut v = Vec::new();
+            f.read_to_end(&mut v).unwrap();
+            v
+        };
+        let oup = exec_target_with_in(TARGET_EXE_PATH, ["-e", "."], &v);
+        assert_eq!(
+            oup.stderr,
+            concat!(program_name!(), ": stream did not contain valid UTF-8\n",)
+        );
+        assert_eq!(oup.stdout, "");
+        assert!(!oup.status.success());
     }
 }
 
