@@ -121,28 +121,64 @@ where
     I: IntoIterator<Item = S>,
     S: AsRef<std::ffi::OsStr>,
 {
-    let env = conf::EnvConf::new();
-    execute_env(sioe, prog_name, args, &env)
+    execute_with_env(sioe, prog_name, args, vec![("", "")])
 }
 
-pub fn execute_env<I, S>(
+///
+/// execute mcycle with environments
+///
+/// params:
+///   - sioe: stream in/out/err
+///   - program: program name. etc. "mcycle"
+///   - args: parameter arguments.
+///   - env: environments array.
+///
+/// return:
+///   - ok: ()
+///   - err: anyhow
+///
+/// example:
+///
+/// ```rust
+/// use runnel::RunnelIoeBuilder;
+///
+/// let r = libaki_mcycle::execute(&RunnelIoeBuilder::new().build(),
+///     "mcycle",
+///     ["-e", "Message: *[^ ]+"],
+///     vec![
+///         ("AKI_MCYCLE_COLOR_SEQ_RED_ST", "<R>"),
+///         ("AKI_MCYCLE_COLOR_SEQ_GREEN_ST", "<G>"),
+///         ("AKI_MCYCLE_COLOR_SEQ_BLUE_ST", "<B>"),
+///         ("AKI_MCYCLE_COLOR_SEQ_CYAN_ST", "<C>"),
+///         ("AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST", "<M>"),
+///         ("AKI_MCYCLE_COLOR_SEQ_YELLOW_ST", "<Y>"),
+///         ("AKI_MCYCLE_COLOR_SEQ_ED","<E>"),
+///     ]
+/// );
+/// ```
+///
+pub fn execute_with_env<I, S, IKV, K, V>(
     sioe: &RunnelIoe,
     prog_name: &str,
     args: I,
-    env: &conf::EnvConf,
+    env: IKV,
 ) -> anyhow::Result<()>
 where
     I: IntoIterator<Item = S>,
     S: AsRef<std::ffi::OsStr>,
+    IKV: IntoIterator<Item = (K, V)>,
+    K: AsRef<std::ffi::OsStr>,
+    V: AsRef<std::ffi::OsStr>,
 {
     let args: Vec<String> = args
         .into_iter()
         .map(|s| s.as_ref().to_string_lossy().into_owned())
         .collect();
     let args_str: Vec<&str> = args.iter().map(|s| s.as_str()).collect();
+    let env_cnf: conf::EnvConf = env.into();
     //
     match conf::parse_cmdopts(prog_name, &args_str) {
-        Ok(conf) => run::run(sioe, &conf, env),
+        Ok(conf) => run::run(sioe, &conf, &env_cnf),
         Err(errs) => {
             if let Some(err) = errs.iter().find(|e| e.is_help() || e.is_version()) {
                 sioe.pg_out().write_line(err.to_string())?;
