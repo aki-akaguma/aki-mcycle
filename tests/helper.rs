@@ -37,6 +37,21 @@ macro_rules! help_msg {
 }
 
 #[allow(unused_macros)]
+macro_rules! x_help_msg {
+    () => {
+        concat!(
+            indoc::indoc!(
+                r#"
+            Options:
+              -X rust-version-info     display rust version info and exit
+            "#
+            ),
+            "\n",
+        )
+    };
+}
+
+#[allow(unused_macros)]
 macro_rules! try_help_msg {
     () => {
         "Try --help for help.\n"
@@ -58,6 +73,13 @@ macro_rules! version_msg {
 }
 
 #[allow(unused_macros)]
+macro_rules! fixture_invalid_utf8 {
+    () => {
+        "fixtures/invalid_utf8.txt"
+    };
+}
+
+#[allow(unused_macros)]
 macro_rules! fixture_text10k {
     () => {
         "fixtures/text10k.txt"
@@ -65,8 +87,16 @@ macro_rules! fixture_text10k {
 }
 
 #[allow(unused_macros)]
-macro_rules! fixture_invalid_utf8 {
-    () => {
-        "fixtures/invalid_utf8.txt"
-    };
+macro_rules! env_1 {
+    () => {{
+        vec![
+            ("AKI_MCYCLE_COLOR_SEQ_RED_ST", "<R>"),
+            ("AKI_MCYCLE_COLOR_SEQ_GREEN_ST", "<G>"),
+            ("AKI_MCYCLE_COLOR_SEQ_BLUE_ST", "<B>"),
+            ("AKI_MCYCLE_COLOR_SEQ_CYAN_ST", "<C>"),
+            ("AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST", "<M>"),
+            ("AKI_MCYCLE_COLOR_SEQ_YELLOW_ST", "<Y>"),
+            ("AKI_MCYCLE_COLOR_SEQ_ED", "<E>"),
+        ]
+    }};
 }

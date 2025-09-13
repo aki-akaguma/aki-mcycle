@@ -142,7 +142,7 @@ where
 /// ```rust
 /// use runnel::RunnelIoeBuilder;
 ///
-/// let r = libaki_mcycle::execute(&RunnelIoeBuilder::new().build(),
+/// let r = libaki_mcycle::execute_with_env(&RunnelIoeBuilder::new().build(),
 ///     "mcycle",
 ///     ["-e", "Message: *[^ ]+"],
 ///     vec![
