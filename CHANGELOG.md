@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.0] (2025-09-15)
 ### Added
 * `specs`
 * more tests
@@ -276,7 +278,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.1.0 (2017-12-05)
 * first commit
 
-[Unreleased]: https://github.com/aki-akaguma/aki-mcycle/compare/v0.1.29..HEAD
+[Unreleased]: https://github.com/aki-akaguma/aki-mcycle/compare/v0.2.0..HEAD
+[0.2.0]: https://github.com/aki-akaguma/aki-mcycle/compare/v0.1.29..v0.2.0
 [0.1.29]: https://github.com/aki-akaguma/aki-mcycle/compare/v0.1.28..v0.1.29
 [0.1.28]: https://github.com/aki-akaguma/aki-mcycle/compare/v0.1.27..v0.1.28
 [0.1.27]: https://github.com/aki-akaguma/aki-mcycle/compare/v0.1.26..v0.1.27
