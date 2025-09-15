@@ -8,7 +8,6 @@ mod test_0_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::*;
-    use std::io::Write;
     //
     #[test]
     fn test_help() {
@@ -75,14 +74,6 @@ mod test_0_x_options_l {
     use runnel::*;
     //
     #[test]
-    fn test_x_rust_version_info() {
-        let (r, sioe) = do_execute!(["-X", "rust-version-info"]);
-        assert_eq!(buff!(sioe, serr), "");
-        assert!(!buff!(sioe, sout).is_empty());
-        assert!(r.is_ok());
-    }
-    //
-    #[test]
     fn test_x_option_help() {
         let (r, sioe) = do_execute!(["-X", "help"]);
         assert_eq!(buff!(sioe, serr), "");
@@ -111,24 +102,15 @@ mod test_0_x_options_l {
 }
 
 mod test_1_l {
-    /*
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
-    */
     //
-    /*
     #[test]
     fn test_invalid_utf8() {
-        let v = {
-            use std::io::Read;
-            let mut f = std::fs::File::open(fixture_invalid_utf8!()).unwrap();
-            let mut v = Vec::new();
-            f.read_to_end(&mut v).unwrap();
-            v
-        };
-        let (r, sioe) = do_execute!(["-e", "."], &v);
+        let v = std::fs::read(fixture_invalid_utf8!()).unwrap();
+        let s = unsafe { String::from_utf8_unchecked(v) };
+        let (r, sioe) = do_execute!(["-e", "."], &s);
         assert_eq!(
             buff!(sioe, serr),
             concat!(program_name!(), ": stream did not contain valid UTF-8\n",)
@@ -136,14 +118,12 @@ mod test_1_l {
         assert_eq!(buff!(sioe, sout), "");
         assert!(r.is_err());
     }
-    */
 }
 
 mod test_2_regex_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_abc_1() {
@@ -230,7 +210,6 @@ mod test_3_l {
     /*
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
-    use std::io::Write;
     //
      * can NOT test
     #[test]
@@ -243,7 +222,6 @@ mod test_4_color_cycling_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_color_reuse() {
@@ -274,7 +252,6 @@ mod test_4_input_edge_cases_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_long_line() {
@@ -301,7 +278,6 @@ mod test_4_color_env_vars_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_custom_color_sequences() {
@@ -332,7 +308,6 @@ mod test_4_cycle_cleaning_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_cycle_vec_cleaning() {
@@ -372,7 +347,6 @@ mod test_4_capture_groups_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_regex_with_capture_group() {
@@ -409,7 +383,6 @@ mod test_4_invalid_env_vars_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_malformed_color_sequence() {
@@ -430,7 +403,6 @@ mod test_4_unicode_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_unicode_matching() {
@@ -455,7 +427,6 @@ mod test_4_edge_cases_l {
     use libaki_mcycle::*;
     use runnel::medium::stringio::{StringErr, StringIn, StringOut};
     use runnel::RunnelIoe;
-    use std::io::Write;
     //
     #[test]
     fn test_empty_input() {

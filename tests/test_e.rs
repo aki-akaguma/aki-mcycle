@@ -105,13 +105,7 @@ mod test_1_e {
     //
     #[test]
     fn test_invalid_utf8() {
-        let v = {
-            use std::io::Read;
-            let mut f = std::fs::File::open(fixture_invalid_utf8!()).unwrap();
-            let mut v = Vec::new();
-            f.read_to_end(&mut v).unwrap();
-            v
-        };
+        let v = std::fs::read(fixture_invalid_utf8!()).unwrap();
         let oup = exec_target_with_in(TARGET_EXE_PATH, ["-e", "."], &v);
         assert_eq!(
             oup.stderr,
@@ -126,12 +120,10 @@ mod test_2_regex_e {
     use exec_target::exec_target_with_env_in;
     const TARGET_EXE_PATH: &str = super::TARGET_EXE_PATH;
     //
-    //
     #[test]
     fn test_abc_1() {
         let in_put: &[u8] = b"abcdefg";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "<R>a<E>bcdefg\n");
         assert!(oup.status.success());
@@ -140,8 +132,7 @@ mod test_2_regex_e {
     #[test]
     fn test_abc_2() {
         let in_put: &[u8] = b"abcdefg\nhiajklnm\n";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "<R>a<E>bcdefg\nhi<R>a<E>jklnm\n");
         assert!(oup.status.success());
@@ -150,8 +141,7 @@ mod test_2_regex_e {
     #[test]
     fn test_abc_3() {
         let in_put: &[u8] = b"ab1cdefg\nhi2jklnm\nhi1jklnm\n";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[0-9]"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[0-9]"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(
             oup.stdout,
@@ -163,9 +153,12 @@ mod test_2_regex_e {
     #[test]
     fn test_abc_4() {
         let in_put: &[u8] = b"ab1cdefg\nhi2jklnm\nhi1jklnm\n";
-        let env = env_1!();
-        let oup =
-            exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[a-z][0-9]([a-z])"], env, in_put);
+        let oup = exec_target_with_env_in(
+            TARGET_EXE_PATH,
+            ["-e", "[a-z][0-9]([a-z])"],
+            env_1!(),
+            in_put,
+        );
         assert_eq!(oup.stderr, "");
         assert_eq!(
             oup.stdout,
@@ -177,9 +170,13 @@ mod test_2_regex_e {
     #[test]
     fn test_regex_multiple_capture_groups() {
         let in_put: &[u8] = b"abc123def";
-        let env = env_1!();
         // The regex has two capture groups, but the whole match should be colored.
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "([a-z]+)([0-9]+)"], env, in_put);
+        let oup = exec_target_with_env_in(
+            TARGET_EXE_PATH,
+            ["-e", "([a-z]+)([0-9]+)"],
+            env_1!(),
+            in_put,
+        );
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "<R>abc<E>123def\n");
         assert!(oup.status.success());
@@ -188,9 +185,8 @@ mod test_2_regex_e {
     #[test]
     fn test_regex_overlapping_matches() {
         let in_put: &[u8] = b"abababa";
-        let env = env_1!();
         // The regex engine is non-overlapping, so it should match "aba", then "aba"
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "aba"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "aba"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "<R>aba<E>b<R>aba<E>\n");
         assert!(oup.status.success());
@@ -199,14 +195,14 @@ mod test_2_regex_e {
     #[test]
     fn test_regex_zero_length_match() {
         let in_put: &[u8] = b"abc";
-        let env = env_1!();
         // Zero-length matches should not cause infinite loops or panics.
         // The regex "a*" matches the zero-length string at the beginning of "bc".
         // The tool should handle this gracefully. Let's check what it does.
         // Based on a quick manual test, it seems to hang. This is a good test case.
         // For now, let's assert that it does not hang and produces some output.
         // I will use a timeout for this test.
-        let oup = exec_target::exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a*"], env, in_put);
+        let oup =
+            exec_target::exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a*"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         // The expected output depends on how the tool handles zero-length matches.
         // A reasonable behavior would be to not color anything or to color the matched empty strings.
@@ -241,8 +237,7 @@ mod test_4_color_cycling_e {
     #[test]
     fn test_color_reuse() {
         let in_put: &[u8] = b"apple\nbanana\napple";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[a-z]+"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[a-z]+"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "<R>apple<E>\n<G>banana<E>\n<R>apple<E>\n");
         assert!(oup.status.success());
@@ -251,8 +246,7 @@ mod test_4_color_cycling_e {
     #[test]
     fn test_color_cycle_wrap_around() {
         let in_put: &[u8] = b"a\nb\nc\nd\ne\nf\ng\na";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[a-z]"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[a-z]"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(
             oup.stdout,
@@ -270,8 +264,7 @@ mod test_4_input_edge_cases_e {
     fn test_long_line() {
         let long_line = "a".repeat(10000);
         let in_put = long_line.as_bytes();
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a+"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a+"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         let expected_output = format!("<R>{}<E>\n", long_line);
         assert_eq!(oup.stdout, expected_output);
@@ -281,8 +274,7 @@ mod test_4_input_edge_cases_e {
     #[test]
     fn test_mixed_line_endings() {
         let in_put: &[u8] = b"line1\r\nline2\nline3";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "line[0-9]"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "line[0-9]"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "<R>line1<E>\n<G>line2<E>\n<B>line3<E>\n");
         assert!(oup.status.success());
@@ -335,9 +327,12 @@ mod test_4_cycle_cleaning_e {
         // This should be colored red again
         input.push_str("word0\n");
         //
-        let env = env_1!();
-        let oup =
-            exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "word[0-9]+"], env, input.as_bytes());
+        let oup = exec_target_with_env_in(
+            TARGET_EXE_PATH,
+            ["-e", "word[0-9]+"],
+            env_1!(),
+            input.as_bytes(),
+        );
         //
         assert_eq!(oup.stderr, "");
         let stdout = oup.stdout.as_str();
@@ -367,10 +362,13 @@ mod test_4_capture_groups_e {
     #[test]
     fn test_regex_with_capture_group() {
         let in_put: &[u8] = b"abc123def";
-        let env = env_1!();
         // The regex has a capture group for the numbers. The implementation should color the capture group.
-        let oup =
-            exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[a-z]+([0-9]+)[a-z]+"], env, in_put);
+        let oup = exec_target_with_env_in(
+            TARGET_EXE_PATH,
+            ["-e", "[a-z]+([0-9]+)[a-z]+"],
+            env_1!(),
+            in_put,
+        );
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "abc<R>123<E>def\n");
         assert!(oup.status.success());
@@ -379,12 +377,11 @@ mod test_4_capture_groups_e {
     #[test]
     fn test_regex_with_multiple_capture_groups() {
         let in_put: &[u8] = b"abc123def";
-        let env = env_1!();
         // When multiple capture groups are present, only the first one is used for coloring.
         let oup = exec_target_with_env_in(
             TARGET_EXE_PATH,
             ["-e", "([a-z]+)([0-9]+)([a-z]+)"],
-            env,
+            env_1!(),
             in_put,
         );
         assert_eq!(oup.stderr, "");
@@ -395,9 +392,8 @@ mod test_4_capture_groups_e {
     #[test]
     fn test_regex_with_no_capture_group() {
         let in_put: &[u8] = b"abc123def";
-        let env = env_1!();
         // When no capture group is present, the whole match is colored.
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[0-9]+"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "[0-9]+"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "abc<R>123<E>def\n");
         assert!(oup.status.success());
@@ -430,8 +426,7 @@ mod test_4_unicode_e {
     #[test]
     fn test_unicode_matching() {
         let in_put: &[u8] = "こんにちは世界".as_bytes();
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "世界"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "世界"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "こんにちは<R>世界<E>\n");
         assert!(oup.status.success());
@@ -440,8 +435,7 @@ mod test_4_unicode_e {
     #[test]
     fn test_unicode_non_matching() {
         let in_put: &[u8] = "こんにちは世界".as_bytes();
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "さようなら"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "さようなら"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "こんにちは世界\n");
         assert!(oup.status.success());
@@ -455,8 +449,7 @@ mod test_4_edge_cases_e {
     #[test]
     fn test_empty_input() {
         let in_put: &[u8] = b"";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "."], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "."], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "");
         assert!(oup.status.success());
@@ -465,8 +458,7 @@ mod test_4_edge_cases_e {
     #[test]
     fn test_no_matches() {
         let in_put: &[u8] = b"abc\ndef\nghi";
-        let env = env_1!();
-        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "xyz"], env, in_put);
+        let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "xyz"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "abc\ndef\nghi\n");
         assert!(oup.status.success());
@@ -475,9 +467,12 @@ mod test_4_edge_cases_e {
     #[test]
     fn test_catastrophic_backtracking_regex() {
         let in_put: &[u8] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaab".as_bytes();
-        let env = env_1!();
-        let oup =
-            exec_target::exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "(a+)+"], env, in_put);
+        let oup = exec_target::exec_target_with_env_in(
+            TARGET_EXE_PATH,
+            ["-e", "(a+)+"],
+            env_1!(),
+            in_put,
+        );
         assert_eq!(oup.stderr, "");
         assert_eq!(oup.stdout, "<R>aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<E>b\n");
         assert!(oup.status.success());
