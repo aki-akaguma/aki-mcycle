@@ -259,7 +259,7 @@ mod test_4_input_edge_cases_l {
         let in_put = long_line.as_str();
         let (r, sioe) = do_execute!(env_1!(), ["-e", "a+"], in_put);
         assert_eq!(buff!(sioe, serr), "");
-        let expected_output = format!("<R>{}<E>\n", long_line);
+        let expected_output = format!("<R>{long_line}<E>\n");
         assert_eq!(buff!(sioe, sout), expected_output);
         assert!(r.is_ok());
     }
@@ -315,7 +315,7 @@ mod test_4_cycle_cleaning_l {
         // The function is called every 30 lines and removes entries older than 50 lines.
         let mut input = String::new();
         for i in 0..96 {
-            input.push_str(&format!("word{}\n", i));
+            input.push_str(&format!("word{i}\n"));
         }
         // This should be colored red again
         input.push_str("word0\n");

@@ -266,7 +266,7 @@ mod test_4_input_edge_cases_e {
         let in_put = long_line.as_bytes();
         let oup = exec_target_with_env_in(TARGET_EXE_PATH, ["-e", "a+"], env_1!(), in_put);
         assert_eq!(oup.stderr, "");
-        let expected_output = format!("<R>{}<E>\n", long_line);
+        let expected_output = format!("<R>{long_line}<E>\n");
         assert_eq!(oup.stdout, expected_output);
         assert!(oup.status.success());
     }
@@ -322,7 +322,7 @@ mod test_4_cycle_cleaning_e {
         // The function is called every 30 lines and removes entries older than 50 lines.
         let mut input = String::new();
         for i in 0..96 {
-            input.push_str(&format!("word{}\n", i));
+            input.push_str(&format!("word{i}\n"));
         }
         // This should be colored red again
         input.push_str("word0\n");
@@ -522,8 +522,7 @@ mod test_5_performance_e {
         // If it takes more than 5 seconds, something is likely wrong.
         assert!(
             duration.as_secs() < 5,
-            "Processing a 10k file took too long: {:?}",
-            duration
+            "Processing a 10k file took too long: {duration:?}"
         );
     }
 }
