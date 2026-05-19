@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+* `docs/review.1.md`: code review report.
+
 ### Changed
 * update crate: flood-tide(0.2.14), flood-tide-gen(0.2.2)
 * update crate: runnel(0.4.2), regex(1.12)
 * minimum support rustc 1.68.0 (2c8cc3432 2023-03-06)
+* update `specs/2.design.md` to reflect the use of `flood_tide` instead of `clap`.
 
 ### Fixed
 * `clippy::uninlined-format-args`
