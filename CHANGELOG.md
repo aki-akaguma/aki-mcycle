@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * `docs/review.2.md`: code review report.
 * `docs/review.1.md`: code review report.
 * document: stateful coloring feature in `README.md`, `src/lib.rs` and `specs/0.requirements.md`.
+* document: performance section in `README.md` and `src/lib.rs`.
 
 ### Changed
 * update crate: flood-tide(0.2.14), flood-tide-gen(0.2.2)

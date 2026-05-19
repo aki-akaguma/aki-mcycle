@@ -11,6 +11,10 @@ the mark up text with cycling color program.
 
 Unlike simple color cyclers, `aki-mcycle` remembers the color assigned to a specific match. If the same string appears again within a sliding window (default 50 lines), it reuses the same color. This provides excellent visual continuity when tracing identifiers or specific patterns in log files.
 
+# Performance
+
+`aki-mcycle` is designed for high-performance text processing. It efficiently handles large input streams and extremely long lines by using a sparse memory representation for color segments. This ensures minimal memory footprint even when processing single lines that span multiple megabytes, making it suitable for heavy-duty log analysis.
+
 # Command help
 
 ```text
