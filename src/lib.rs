@@ -41,7 +41,7 @@ Environments:
   AKI_MCYCLE_COLOR_SEQ_GREEN_ST     green start sequence specified by ansi
   AKI_MCYCLE_COLOR_SEQ_BLUE_ST      blue start sequence specified by ansi
   AKI_MCYCLE_COLOR_SEQ_CYAN_ST      cyan start sequence specified by ansi
-  AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST   magenda start sequence specified by ansi
+  AKI_MCYCLE_COLOR_SEQ_MAGENTA_ST   magenta start sequence specified by ansi
   AKI_MCYCLE_COLOR_SEQ_YELLOW_ST    yellow start sequence specified by ansi
   AKI_MCYCLE_COLOR_SEQ_ED           color end sequence specified by ansi
 ```
@@ -159,7 +159,7 @@ where
 ///         ("AKI_MCYCLE_COLOR_SEQ_GREEN_ST", "<G>"),
 ///         ("AKI_MCYCLE_COLOR_SEQ_BLUE_ST", "<B>"),
 ///         ("AKI_MCYCLE_COLOR_SEQ_CYAN_ST", "<C>"),
-///         ("AKI_MCYCLE_COLOR_SEQ_MAGENDA_ST", "<M>"),
+///         ("AKI_MCYCLE_COLOR_SEQ_MAGENTA_ST", "<M>"),
 ///         ("AKI_MCYCLE_COLOR_SEQ_YELLOW_ST", "<Y>"),
 ///         ("AKI_MCYCLE_COLOR_SEQ_ED","<E>"),
 ///     ]

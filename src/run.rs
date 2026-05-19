@@ -33,8 +33,8 @@ impl CurrColor {
             Color::Red => Color::Green,
             Color::Green => Color::Blue,
             Color::Blue => Color::Cyan,
-            Color::Cyan => Color::Magenda,
-            Color::Magenda => Color::Yellow,
+            Color::Cyan => Color::Magenta,
+            Color::Magenta => Color::Yellow,
             Color::Yellow => Color::Red,
         };
         self.curr_color = c_color;
@@ -57,7 +57,7 @@ impl<'a> ColorSeq<'a> {
             Color::Green => self.env.color_seq_green_start.as_str(),
             Color::Blue => self.env.color_seq_blue_start.as_str(),
             Color::Cyan => self.env.color_seq_cyan_start.as_str(),
-            Color::Magenda => self.env.color_seq_magenda_start.as_str(),
+            Color::Magenta => self.env.color_seq_magenta_start.as_str(),
             Color::Yellow => self.env.color_seq_yellow_start.as_str(),
         }
     }

@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * refactor: use sparse representation for coloring marks in `src/run.rs` to improve memory efficiency on extremely long lines.
 
 ### Fixed
+* correct spelling of 'magenta' and environment variable `AKI_MCYCLE_COLOR_SEQ_MAGENTA_ST`.
 * `clippy::uninlined-format-args`
 * `clippy::needless_borrow`
 
