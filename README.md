@@ -13,7 +13,12 @@ the mark up text with cycling color program.
 ## Features
 
 - mark up text with cycling color.
-- minimum support rustc 1.65.0 (897e37553 2022-11-02)
+- **Stateful Color Consistency**: Reuses the same color for identical matches within a 50-line window for better visual tracing.
+- minimum support rustc 1.68.0 (2c8cc3432 2023-03-06)
+
+## Key Feature: Stateful Color Consistency
+
+Unlike simple color cyclers, `aki-mcycle` remembers the color assigned to a specific match. If the same string appears again within a sliding window (default 50 lines), it reuses the same color. This provides excellent visual continuity when tracing identifiers or specific patterns in log files.
 
 ## Command help
 
