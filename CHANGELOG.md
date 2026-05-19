@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+* `docs/review.2.md`: code review report.
 * `docs/review.1.md`: code review report.
 * document: stateful coloring feature in `README.md`, `src/lib.rs` and `specs/0.requirements.md`.
 
