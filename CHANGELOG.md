@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * minimum support rustc 1.68.0 (2c8cc3432 2023-03-06)
 * update `specs/2.design.md` to reflect the use of `flood_tide` instead of `clap`.
 * update minimum support rustc version to 1.68.0 in `README.md` and `src/lib.rs`.
+* refactor: use sparse representation for coloring marks in `src/run.rs` to improve memory efficiency on extremely long lines.
 
 ### Fixed
 * `clippy::uninlined-format-args`

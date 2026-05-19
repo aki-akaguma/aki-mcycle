@@ -73,6 +73,13 @@ struct MarkColorLNum {
     lnum: usize,
 }
 
+#[derive(Debug, Clone, Copy)]
+struct ColoredRange {
+    st: usize,
+    ed: usize,
+    color: Color,
+}
+
 fn clean_cycle_vec(limit_num: usize, line_num: usize, v: &mut Vec<MarkColorLNum>) {
     let mut pos_v: Vec<usize> = (0..v.len())
         .filter(|c| line_num - v[*c].lnum > limit_num)
@@ -103,10 +110,10 @@ fn do_match_proc(
         let line_ss = line_s.as_str();
         line_num += 1;
         //
-        let (b_found, line_color_mark) =
+        let (b_found, colored_ranges) =
             make_line_color_mark(re, &mut cycle_vec, &mut curr_color, line_num, line_ss)?;
         if b_found {
-            let out_s = make_out_s(&color_seq, line_ss, &line_color_mark)?;
+            let out_s = make_out_s(&color_seq, line_ss, &colored_ranges)?;
             sioe.pg_out().write_line(out_s)?;
         } else {
             sioe.pg_out().write_line(line_s)?;
@@ -127,10 +134,8 @@ fn make_line_color_mark(
     curr_color: &mut CurrColor,
     line_num: usize,
     line_ss: &str,
-) -> anyhow::Result<(bool, Vec<Color>)> {
-    let line_len: usize = line_ss.len();
-    let mut line_color_mark: Vec<Color> = Vec::with_capacity(line_len);
-    line_color_mark.resize(line_len, Color::None);
+) -> anyhow::Result<(bool, Vec<ColoredRange>)> {
+    let mut colored_ranges: Vec<ColoredRange> = Vec::new();
     let mut b_found = false;
     //
     for cap in re.captures_iter(line_ss) {
@@ -141,6 +146,9 @@ fn make_line_color_mark(
             Some(m) => (m.start(), m.end()),
             None => (0, 0),
         };
+        if st == ed {
+            continue;
+        }
         let mark_s = &line_ss[st..ed];
         let pos = cycle_vec.iter().position(|c| c.mark == mark_s);
         let color = match pos {
@@ -158,49 +166,32 @@ fn make_line_color_mark(
                 c_color
             }
         };
-        for m in line_color_mark.iter_mut().take(ed).skip(st) {
-            *m = color;
-        }
+        colored_ranges.push(ColoredRange { st, ed, color });
     }
-    Ok((b_found, line_color_mark))
+    Ok((b_found, colored_ranges))
 }
 
 fn make_out_s(
     color_seq: &ColorSeq,
     line_ss: &str,
-    line_color_mark: &[Color],
+    colored_ranges: &[ColoredRange],
 ) -> anyhow::Result<String> {
-    /*
-    let color_start_s = "<S>";
-    let color_end_s = "<E>";
-    */
     let color_end_s = color_seq.color_seq_end();
-    let line_len: usize = line_ss.len();
     //
     let mut out_s: String = String::new();
-    let mut color = Color::None;
-    let mut st: usize = 0;
-    loop {
-        let next_pos = match line_color_mark.iter().skip(st).position(|c| *c != color) {
-            Some(pos) => st + pos,
-            None => line_len,
-        };
-        if st != next_pos {
-            if color != Color::None {
-                let color_start_s = color_seq.color_seq_start(color);
-                out_s.push_str(color_start_s);
-            }
-            out_s.push_str(&line_ss[st..next_pos]);
-            if color != Color::None {
-                out_s.push_str(color_end_s);
-            }
+    let mut last_pos: usize = 0;
+    for range in colored_ranges {
+        if range.st > last_pos {
+            out_s.push_str(&line_ss[last_pos..range.st]);
         }
-        //
-        if next_pos >= line_len {
-            break;
-        }
-        st = next_pos;
-        color = line_color_mark[st];
+        let color_start_s = color_seq.color_seq_start(range.color);
+        out_s.push_str(color_start_s);
+        out_s.push_str(&line_ss[range.st..range.ed]);
+        out_s.push_str(color_end_s);
+        last_pos = range.ed;
+    }
+    if last_pos < line_ss.len() {
+        out_s.push_str(&line_ss[last_pos..]);
     }
     Ok(out_s)
 }
