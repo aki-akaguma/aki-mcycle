@@ -81,16 +81,7 @@ struct ColoredRange {
 }
 
 fn clean_cycle_vec(limit_num: usize, line_num: usize, v: &mut Vec<MarkColorLNum>) {
-    let mut pos_v: Vec<usize> = (0..v.len())
-        .filter(|c| line_num - v[*c].lnum > limit_num)
-        .collect();
-    //eprintln!("v.len: {}, pos_v.len: {}", v.len(), pos_v.len());
-    if !pos_v.is_empty() {
-        pos_v.reverse();
-        for idx in pos_v {
-            v.remove(idx);
-        }
-    }
+    v.retain(|c| line_num - c.lnum <= limit_num);
 }
 
 fn do_match_proc(

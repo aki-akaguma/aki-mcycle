@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * `docs/reviews/2026-06-01_code_review.3.md`: code review report.
 
+### Changed
+* refactor: use `Vec::retain` for more idiomatic and efficient collection cleanup in `src/run.rs`.
+
 
 ## [0.2.1] (2026-05-19)
 ### Added
