@@ -132,8 +132,11 @@ fn make_line_color_mark(
     for cap in re.captures_iter(line_ss) {
         b_found = true;
         //
-        let cap_len = cap.len();
-        let (st, ed): (usize, usize) = match cap.get(usize::from(cap_len > 1)) {
+        // If the regex has at least one capture group (len > 1), use the first capture group (index 1)
+        // for coloring. Otherwise, default to the entire match (index 0).
+        let group_index = if cap.len() > 1 { 1 } else { 0 };
+
+        let (st, ed): (usize, usize) = match cap.get(group_index) {
             Some(m) => (m.start(), m.end()),
             None => (0, 0),
         };
